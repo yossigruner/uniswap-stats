@@ -6,7 +6,8 @@ const MULTIPLIER = 3;
 
 const main = async () => {
 
-    // Get pair
+    // Step #1
+    // get pairs
     const res = await axios.post('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', {
         query: `
         {
@@ -31,7 +32,8 @@ const main = async () => {
     `
     })
 
-    // filter
+    // Step #2
+    // filter muliplier
     var filterResult = []
     for (const pairDay of res.data.data.pairDayDatas) {
         if (pairDay.dailyVolumeUSD > (MULTIPLIER * pairDay.reserveUSD)) {
@@ -39,7 +41,9 @@ const main = async () => {
         }
     }
 
+    // Setp #3
 
+    // Step #4
 
     return filterResult
 }
