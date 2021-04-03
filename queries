@@ -1,0 +1,16 @@
+{
+  swaps(first: 100, orderBy: timestamp, orderDirection: asc) {
+    pair 
+    {
+      id(where: {id:"0x32ce7e48debdccbfe0cd037cc89526e4382cb81b-18532"})
+      token0 {
+        name
+      }
+      token1 {
+        name
+      }
+    }
+    amountUSD
+    
+  }
+}

@@ -1,12 +1,11 @@
 const axios = require('axios')
 
-const MIN_DAILY_VOLUME_USD = 40000000;
-const DATE  = 1614708740 
+const MIN_DAILY_VOLUME_USD = 1000000;
+const DATE = 1617392958 
 const MULTIPLIER = 3;
 
 const main = async () => {
 
-    // Step #1
     // get pairs
     const res = await axios.post('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', {
         query: `
@@ -14,7 +13,7 @@ const main = async () => {
             pairDayDatas(first: 100, orderBy: date, orderDirection: asc,
               where: {
                 dailyVolumeUSD_gt: ` + MIN_DAILY_VOLUME_USD + `
-                date_lt: ` + DATE + `
+                date_gt: ` + DATE + `
               })
               {
                 token0 {
@@ -26,13 +25,14 @@ const main = async () => {
                 dailyTxns
                 dailyVolumeUSD
                 reserveUSD
-                pairAddress
+                pairAddress,
+                date
             }
            }
     `
     })
 
-    // Step #2
+    // Step #1
     // filter muliplier
     var filterResult = []
     for (const pairDay of res.data.data.pairDayDatas) {
@@ -41,9 +41,17 @@ const main = async () => {
         }
     }
 
-    // Setp #3
+    // Setp #2
+
+    for (const pairDay of filterResult) {
+        
+    }
+
+
+    // Step #3
 
     // Step #4
+    
 
     return filterResult
 }
