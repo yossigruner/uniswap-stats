@@ -33,13 +33,17 @@ const makePoolsList = async (pairs, pairsStats, swaps) => {
 
     const forLoop = async _ => {
         for (let i = 0; i < pairs.length; i++) {
+        // for (let i = 0; i < 1; i++) {
             const pool = {};
             pool.address = pairs[i].pairAddress;
             pool.name = swaps[pool.address][0].pair.token0.symbol+'-'+swaps[pool.address][0].pair.token1.symbol;
-            pool.minPrice = pairsStats[pairs[i].pairAddress].sigma2Down;
-            pool.maxPrice = pairsStats[pairs[i].pairAddress].sigma2Up;
+            pool.sigma2DownPrice = pairsStats[pairs[i].pairAddress].sigma2Down;
+            pool.sigma2UpPrice = pairsStats[pairs[i].pairAddress].sigma2Up;
+            pool.minPrice = pairsStats[pairs[i].pairAddress].periodMin;
+            pool.maxPrice = pairsStats[pairs[i].pairAddress].periodMax;
             pool.liquidity = Number(pairs[i].reserveUSD);
             pool.volume = Number(pairs[i].dailyVolumeUSD);
+            pool.meanPrice = pairsStats[pairs[i].pairAddress].mean;
             // TODO Change pool fee according to v3 when available
             pool.fee = 0.3;
             pool.lastRate = swaps[pool.address][swaps[pool.address].length-1].rate;;
@@ -58,6 +62,17 @@ const makePoolsList = async (pairs, pairsStats, swaps) => {
         pools,
         poolsSorted,
     };
+};
+
+const _getVolumeForRange = async (min, max, pairStats) => {
+    let volume = 0;
+    pairStats.forEach((ps) => {
+        if (ps.rate >= min && ps.rate <= max) {
+            volume += ps.amountUSD;
+        }
+    });
+
+    return volume;
 };
 
 const getPairs = async () => {
