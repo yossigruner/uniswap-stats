@@ -41,6 +41,7 @@ const makePoolsList = async (pairs, pairsStats, swaps) => {
             pool.sigma2UpPrice = pairsStats[pairs[i].pairAddress].sigma2Up;
             pool.minPrice = pairsStats[pairs[i].pairAddress].periodMin;
             pool.maxPrice = pairsStats[pairs[i].pairAddress].periodMax;
+            pool.std = pairsStats[pairs[i].pairAddress].std;
             pool.liquidity = Number(pairs[i].reserveUSD);
             pool.volume = Number(pairs[i].dailyVolumeUSD);
             pool.meanPrice = pairsStats[pairs[i].pairAddress].mean;
