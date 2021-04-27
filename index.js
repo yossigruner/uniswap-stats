@@ -1,5 +1,7 @@
 const axios = require('axios');
 const simple = require('simple-statistics');
+const rangeCompute = require('./rangeCompute.js');
+const helpers = require('./helpers.js');
 
 const MIN_DAILY_VOLUME_USD = 100000;
 const MIN_DAILY_LIQUIDITY_USD = 100;
@@ -27,13 +29,23 @@ const main = async ()  => {
     return result
 };
 
+const _getMeanChange = async (swaps) => {
+    let sumChanges = 0;
+
+    for(let i=1; i<swaps.length; i++) {
+        sumChanges += Math.abs(swaps[i].rate - swaps[i-1].rate);
+    }
+
+    return sumChanges / swaps.length;
+};
+
 const makePoolsList = async (pairs, pairsStats, swaps) => {
     console.log();
     const pools = {};
 
     const forLoop = async _ => {
         for (let i = 0; i < pairs.length; i++) {
-        // for (let i = 0; i < 1; i++) {
+        // for (let i = 0; i < 2; i++) {
             const pool = {};
             pool.address = pairs[i].pairAddress;
             pool.name = swaps[pool.address][0].pair.token0.symbol+'-'+swaps[pool.address][0].pair.token1.symbol;
@@ -45,19 +57,22 @@ const makePoolsList = async (pairs, pairsStats, swaps) => {
             pool.liquidity = Number(pairs[i].reserveUSD);
             pool.volume = Number(pairs[i].dailyVolumeUSD);
             pool.meanPrice = pairsStats[pairs[i].pairAddress].mean;
+            pool.meanChange = await _getMeanChange(swaps[pool.address]);
             // TODO Change pool fee according to v3 when available
             pool.fee = 0.3;
             pool.lastRate = swaps[pool.address][swaps[pool.address].length-1].rate;;
             pool.timeInRange1Sigma = pairsStats[pairs[i].pairAddress].timeInRange1Sigma;
             pool.timeInRange2Sigma = pairsStats[pairs[i].pairAddress].timeInRange2Sigma;
             pool.estimatedRevenue = pool.fee * ( pool.volume / pool.liquidity );
+            const scoredSubPools = rangeCompute.makeScoredRanges(swaps[pool.address], pairsStats[pool.address], pool.liquidity, pool.sigma2DownPrice, pool.sigma2UpPrice, pool.meanChange);
+            pool.scoredPools = scoredSubPools.sort((a,b) => (a.rangeSize> b.rangeSize) ? 1 : ((b.rangeSize > a.rangeSize) ? -1 : 0));
             pools[pool.address]=pool;
         }
     };
     await forLoop();
 
     let poolsSorted = Object.keys(pools).map((key) => pools[key]);
-    poolsSorted = poolsSorted.sort((a,b) => (a.estimatedRevenue> b.estimatedRevenue) ? -1 : ((b.estimatedRevenue > a.estimatedRevenue) ? 1 : 0))
+    poolsSorted = poolsSorted.sort((a,b) => (a.estimatedRevenue> b.estimatedRevenue) ? -1 : ((b.estimatedRevenue > a.estimatedRevenue) ? 1 : 0));
 
     return {
         pools,
@@ -65,16 +80,6 @@ const makePoolsList = async (pairs, pairsStats, swaps) => {
     };
 };
 
-const _getVolumeForRange = async (min, max, pairStats) => {
-    let volume = 0;
-    pairStats.forEach((ps) => {
-        if (ps.rate >= min && ps.rate <= max) {
-            volume += ps.amountUSD;
-        }
-    });
-
-    return volume;
-};
 
 const getPairs = async () => {
     let skip = 0;
@@ -184,10 +189,10 @@ const _getSinglePairSwapData = async (pair, pairNum, outOf) => {
     let moreResults = true;
     let skip = 0;
     let swapData = [];
-
+    console.log('Collecting swap data for pair - ' + pair.pairAddress);
     while (timestamp_high >= lowerBound) {
         while (moreResults) {
-            console.log('Calling pair: ('+ pairNum +'/'+ outOf +')'+ pair.token0.name +'-'+ pair.token1.name + 'with high: ' + timestamp_high + ' and low: ' + timestamp_low + ' limit: ' + lowerBound + ' skip: '+ skip);
+            // console.log('Calling pair: ('+ pairNum +'/'+ outOf +')'+ pair.token0.name +'-'+ pair.token1.name + 'with high: ' + timestamp_high + ' and low: ' + timestamp_low + ' limit: ' + lowerBound + ' skip: '+ skip);
             const res = await _querySwapData(skip, pair.pairAddress, timestamp_high, timestamp_low);
 
             if (res.data.data != null && res.data.data.swaps != null) {
@@ -205,7 +210,7 @@ const _getSinglePairSwapData = async (pair, pairNum, outOf) => {
                 }
                 // TODO: UPdate data
                 swapData = swapData.concat(res.data.data.swaps);
-                console.log(res.data.data.swaps.length);
+                // console.log(res.data.data.swaps.length);
             }
         }
         timestamp_high = timestamp_low;
@@ -222,7 +227,7 @@ const getSwapData = async (pairs) => {
     const swapData = {};
 
     for (let i=0; i<pairs.length; i++) {
-    // for (let i=0; i<1; i++) {
+    // for (let i=0; i<2; i++) {
         const data = await _getSinglePairSwapData(pairs[i], i +1, pairs.length);
         // TODO Check Rate
         data.forEach(e => e.rate = ( Math.abs(e.amount1In - e.amount1Out) / Math.abs(e.amount0In - e.amount0Out) ));
@@ -232,51 +237,7 @@ const getSwapData = async (pairs) => {
     return swapData;
 };
 
-// const _getTokenData = async (tokenId) => {
-//     const res = await axios.post('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', {
-//         query: `
-//             {
-//             tokenDayDatas(orderBy: date, orderDirection: asc,
-//               where: {
-//                 token: "` +tokenId+ `"
-//               }
-//               ) {
-//                 id
-//                 date
-//                 priceUSD
-//                 totalLiquidityToken
-//                 totalLiquidityUSD
-//                 totalLiquidityETH
-//                 dailyVolumeETH
-//                 dailyVolumeToken
-//                 dailyVolumeUSD
-//                 }
-//             }
-//
-//         `
-//     });
-//
-//     if (res.data.data == null || res.data.data.tokenDayDatas == null || res.data.data.tokenDayDatas.length == 0) {
-//         return null;
-//     }
-//
-//     return {
-//         dailyVolumeUsd: res.data.data.tokenDayDatas[0].dailyVolumeUSD,
-//         dailyLiquidityUsd: res.data.data.tokenDayDatas[0].totalLiquidityUSD,
-//         priceUsd: res.data.data.tokenDayDatas[0].priceUSD,
-//     }
-// }
 
-const _getPercentageInRange = (rates, min, max) => {
-    let inRange = 0;
-    rates.forEach((r) => {
-        if (r <= max && r >= min){
-            inRange++;
-        }
-    });
-
-    return inRange / rates.length;
-};
 
 const _makePairStats = (pair) => {
 
@@ -297,8 +258,8 @@ const _makePairStats = (pair) => {
          sigma2Up,
          sigma1Down,
          sigma2Down,
-         timeInRange1Sigma: _getPercentageInRange(pairRates, sigma1Down, sigma1Up),
-         timeInRange2Sigma: _getPercentageInRange(pairRates, sigma2Down, sigma2Up),
+         timeInRange1Sigma: helpers.getPercentageInRange(pairRates, sigma1Down, sigma1Up),
+         timeInRange2Sigma: helpers.getPercentageInRange(pairRates, sigma2Down, sigma2Up),
     };
 
 };
