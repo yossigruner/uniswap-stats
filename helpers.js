@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 
 module.exports = {
     getVolumeForRange : (min, max, pairStats) => {
@@ -21,6 +23,51 @@ module.exports = {
         return inRange / rates.length;
     },
 
+    getPair : async (pairId) => {
+        return await _getPair(pairId);
+    },
+
+};
+
+const _getPair = async (pairId) => {
+    const res = await axios.post('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', {
+        query: `
+                {
+                 pair(id: "`+ pairId +`"){
+                     token0 {
+                       id
+                       symbol
+                       name
+                       derivedETH
+                     }
+                     token1 {
+                       id
+                       symbol
+                       name
+                       derivedETH
+                     }
+                     reserve0
+                     reserve1
+                     reserveUSD
+                     trackedReserveETH
+                     token0Price
+                     token1Price
+                     volumeUSD
+                     txCount
+                     id
+     }
+    }
+
+        `
+    });
+
+    if (!res.data.data  | !res.data.data.pair) {
+        return null;
+    }
+
+    res.data.data.pair.pairAddress = pairId;
+
+    return [res.data.data.pair];
 };
 
 const _getTokenData = async (tokenId) => {

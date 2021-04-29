@@ -2,13 +2,16 @@ const axios = require('axios');
 const simple = require('simple-statistics');
 const rangeCompute = require('./rangeCompute.js');
 const helpers = require('./helpers.js');
+const timeseriesAnalysis = require('./timeseriesAnalysis.js');
 
 const MIN_DAILY_VOLUME_USD = 100000;
 const MIN_DAILY_LIQUIDITY_USD = 100;
 
 const MULTIPLIER = 2;
 const NUMBEROFDAYS = 1;
+const NUMBEROFDAYS_HISTORICAL = 2;
 const DATE = Math.round(Date.now() / 1000 - (86400 * NUMBEROFDAYS));
+const DATE_HISTORICAL = Math.round(Date.now() / 1000 - (86400 * NUMBEROFDAYS_HISTORICAL));
 const FRAME_SIZE_FOR_SWAP_SCAN  = 1440 * 6; // one hour * 6
 
 
@@ -44,8 +47,8 @@ const makePoolsList = async (pairs, pairsStats, swaps) => {
     const pools = {};
 
     const forLoop = async _ => {
-        for (let i = 0; i < pairs.length; i++) {
-        // for (let i = 0; i < 2; i++) {
+        // for (let i = 0; i < pairs.length; i++) {
+        for (let i = 0; i < 1; i++) {
             const pool = {};
             pool.address = pairs[i].pairAddress;
             pool.name = swaps[pool.address][0].pair.token0.symbol+'-'+swaps[pool.address][0].pair.token1.symbol;
@@ -78,6 +81,38 @@ const makePoolsList = async (pairs, pairsStats, swaps) => {
         pools,
         poolsSorted,
     };
+};
+
+const makeShortPoolsList = async (pairs, pairsStats, swaps, inputMin = null, inputMax = null) => {
+    console.log();
+    const pools = {};
+
+    const forLoop = async _ => {
+        for (let i = 0; i < pairs.length; i++) {
+        // for (let i = 0; i < 2; i++) {
+            const pool = {};
+            pool.address = pairs[i].pairAddress;
+            pool.name = swaps[pool.address][0].pair.token0.symbol+'-'+swaps[pool.address][0].pair.token1.symbol;
+            pool.sigma2DownPrice = pairsStats[pairs[i].pairAddress].sigma2Down;
+            pool.sigma2UpPrice = pairsStats[pairs[i].pairAddress].sigma2Up;
+            pool.minPrice = inputMin ? inputMin : pairsStats[pairs[i].pairAddress].periodMin;
+            pool.maxPrice = inputMax ? inputMax : pairsStats[pairs[i].pairAddress].periodMax;
+            pool.liquidity = Number(pairs[i].reserveUSD);
+            pool.dailyVolume = Number(pairs[i].dailyVolumeUSD);
+            pool.volumeInRange = Number(helpers.getVolumeForRange(pool.minPrice, pool.maxPrice, swaps[pool.address]));
+            pool.meanChange = await _getMeanChange(swaps[pool.address]);
+            // TODO Change pool fee according to v3 when available
+            pool.fee = 0.3;
+            pool.currentPrice = swaps[pool.address][swaps[pool.address].length-1].rate;;
+            pool.timeInRange1Sigma = pairsStats[pairs[i].pairAddress].timeInRange1Sigma;
+            pool.timeInRange2Sigma = pairsStats[pairs[i].pairAddress].timeInRange2Sigma;
+            pool.estimatedRevenue = pool.fee * ( pool.volumeInRange / pool.liquidity );
+            pools[pool.address]=pool;
+        }
+    };
+    await forLoop();
+
+    return pools;
 };
 
 
@@ -182,17 +217,20 @@ const _querySwapData = async (skip, pairAddress, timestamp_high, timestamp_low) 
     })
 };
 
-const _getSinglePairSwapData = async (pair, pairNum, outOf) => {
-    const lowerBound = DATE;
+const _getSinglePairSwapData = async (pair, pairNum=1, outOf=1, historical = false) => {
+    let lowerBound = DATE;
+    if(historical) {
+        lowerBound = DATE_HISTORICAL;
+    }
     let timestamp_high = Math.round(Date.now() / 1000);
     let timestamp_low = timestamp_high - FRAME_SIZE_FOR_SWAP_SCAN;
     let moreResults = true;
     let skip = 0;
     let swapData = [];
-    console.log('Collecting swap data for pair - ' + pair.pairAddress);
+    // console.log('Collecting swap data for pair - ' + pair.pairAddress);
     while (timestamp_high >= lowerBound) {
         while (moreResults) {
-            // console.log('Calling pair: ('+ pairNum +'/'+ outOf +')'+ pair.token0.name +'-'+ pair.token1.name + 'with high: ' + timestamp_high + ' and low: ' + timestamp_low + ' limit: ' + lowerBound + ' skip: '+ skip);
+            console.log('Calling pair: ('+ pairNum +'/'+ outOf +')'+ pair.token0.name +'-'+ pair.token1.name + 'with high: ' + timestamp_high + ' and low: ' + timestamp_low + ' limit: ' + lowerBound + ' skip: '+ skip);
             const res = await _querySwapData(skip, pair.pairAddress, timestamp_high, timestamp_low);
 
             if (res.data.data != null && res.data.data.swaps != null) {
@@ -222,13 +260,13 @@ const _getSinglePairSwapData = async (pair, pairNum, outOf) => {
 
 };
 
-const getSwapData = async (pairs) => {
+const getSwapData = async (pairs, historical = false) => {
 
     const swapData = {};
 
     for (let i=0; i<pairs.length; i++) {
     // for (let i=0; i<2; i++) {
-        const data = await _getSinglePairSwapData(pairs[i], i +1, pairs.length);
+        const data = await _getSinglePairSwapData(pairs[i], i +1, pairs.length, historical);
         // TODO Check Rate
         data.forEach(e => e.rate = ( Math.abs(e.amount1In - e.amount1Out) / Math.abs(e.amount0In - e.amount0Out) ));
         swapData[pairs[i].pairAddress] = (data);
@@ -242,10 +280,11 @@ const getSwapData = async (pairs) => {
 const _makePairStats = (pair) => {
 
     const pairRates = pair.map(p => p.rate);
-    const  sigma1Up = simple.mean(pairRates) + simple.standardDeviation(pairRates);
-    const  sigma2Up = simple.mean(pairRates) + 2 * simple.standardDeviation(pairRates);
-    const  sigma1Down = simple.mean(pairRates) - simple.standardDeviation(pairRates);
-    const  sigma2Down = simple.mean(pairRates) - 2 * simple.standardDeviation(pairRates);
+    const lastRate = pairRates[0];
+    const  sigma1Up = lastRate + simple.standardDeviation(pairRates);
+    const  sigma2Up = lastRate + 2 * simple.standardDeviation(pairRates);
+    const  sigma1Down = lastRate - simple.standardDeviation(pairRates);
+    const  sigma2Down = lastRate - 2 * simple.standardDeviation(pairRates);
 
     return {
          variance: simple.variance(pairRates),
@@ -254,6 +293,7 @@ const _makePairStats = (pair) => {
          periodMin: simple.min(pairRates),
          mean: simple.mean(pairRates),
          median: simple.median(pairRates),
+         lastRate,
          sigma1Up,
          sigma2Up,
          sigma1Down,
@@ -267,10 +307,6 @@ const _makePairStats = (pair) => {
 const makePairsStats = (pairs) => {
     // console.log(pairs);
     const result = {};
-
-    // for (let i = 0; i < pairs.length; i++) {
-    //     result[pairs[i].pairAddress] = _makePairStats(pairs[i]);
-    // }
 
     for (const [key, value] of Object.entries(pairs)) {
         result[`${key}`] =  _makePairStats(value);
@@ -295,14 +331,116 @@ const makePairsStats = (pairs) => {
 //     return filterResult
 // }
 
-main()
+const getPoolsTable = async () => {
+    let result = [];
+
+    await getPairs()
+        .then(async (pairs) => {
+            await getSwapData(pairs)
+                .then(async(swaps) => {
+                    const stats = makePairsStats(swaps);
+                    result = await makeShortPoolsList(pairs, stats, swaps);
+
+                });
+
+        });
+
+    return result
+};
+
+const getPoolsTableForRangeAndPair = async(pairAdrdess, minPrice, maxPrice) => {
+    let result = [];
+
+    return await helpers.getPair(pairAdrdess)
+        .then(async (pairs) => {
+            return await getSwapData(pairs)
+                .then(async(swaps) => {
+                    const stats = makePairsStats(swaps);
+                    return await makeShortPoolsList(pairs, stats, swaps, minPrice, maxPrice);
+
+                });
+
+        });
+
+    return result
+};
+
+const getStatsForPair = async(pairAddress) => {
+    let result = [];
+
+    return await helpers.getPair(pairAddress)
+        .then(async (pairs) => {
+            return await getSwapData(pairs, historical = true)
+                .then(async(swaps) => {
+                    const stats = timeseriesAnalysis.analyze(swaps[pairAddress].map(x => [x.transaction.timestamp, x.rate]));
+
+                    result = stats;
+
+                });
+
+        });
+
+    return result
+};
+
+// // API get table for range and pair
+// getPoolsTableForRangeAndPair(pairAddress, minPrice, maxPrice)
+//     .then((res) => {
+//
+//         console.log("========================================================");
+//         console.log(res);
+//         console.log("========================================================")
+//
+//     })
+//     .catch((error) => {
+//         console.error(error)
+//     });
+
+
+// API get all pools
+getPoolsTable()
     .then((res) => {
 
         console.log("========================================================");
-        console.log(res.poolsSorted);
+        console.log(res);
         console.log("========================================================")
 
     })
     .catch((error) => {
         console.error(error)
     });
+
+
+// const pairAddress = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11';
+// const minPrice =  1;
+// const maxPrice = 2;
+
+// // API get stats for pair
+// getStatsForPair(pairAddress)
+//     .then((res) => {
+//
+//         console.log("========================================================");
+//         console.log(res);
+//         console.log("========================================================")
+//
+//     })
+//     .catch((error) => {
+//         console.error(error)
+//     });
+
+
+
+
+
+
+// main()
+//     .then((res) => {
+//
+//         console.log("========================================================");
+//         console.log(res.poolsSorted);
+//         console.log("========================================================")
+//
+//     })
+//     .catch((error) => {
+//         console.error(error)
+//     });
