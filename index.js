@@ -372,7 +372,7 @@ const getStatsForPair = async(pairAddress) => {
         .then(async (pairs) => {
             return await getSwapData(pairs, historical = true)
                 .then(async(swaps) => {
-                    const stats = timeseriesAnalysis.analyze(swaps[pairAddress].map(x => [x.transaction.timestamp, x.rate]));
+                    const stats = timeseriesAnalysis.analyze(swaps, pairAddress);
 
                     result = stats;
 
@@ -398,25 +398,7 @@ const getStatsForPair = async(pairAddress) => {
 
 
 // API get all pools
-getPoolsTable()
-    .then((res) => {
-
-        console.log("========================================================");
-        console.log(res);
-        console.log("========================================================")
-
-    })
-    .catch((error) => {
-        console.error(error)
-    });
-
-
-// const pairAddress = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11';
-// const minPrice =  1;
-// const maxPrice = 2;
-
-// // API get stats for pair
-// getStatsForPair(pairAddress)
+// getPoolsTable()
 //     .then((res) => {
 //
 //         console.log("========================================================");
@@ -427,6 +409,24 @@ getPoolsTable()
 //     .catch((error) => {
 //         console.error(error)
 //     });
+
+
+const pairAddress = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11';
+const minPrice =  1;
+const maxPrice = 2;
+
+// API get stats for pair
+getStatsForPair(pairAddress)
+    .then((res) => {
+
+        console.log("========================================================");
+        console.log(res);
+        console.log("========================================================")
+
+    })
+    .catch((error) => {
+        console.error(error)
+    });
 
 
 
