@@ -7,8 +7,12 @@ const timeseriesAnalysis = require('./timeseriesAnalysis.js');
 const MIN_DAILY_VOLUME_USD = 100000;
 const MIN_DAILY_LIQUIDITY_USD = 100;
 
-const MULTIPLIER = 2;
-const NUMBEROFDAYS = 1;
+const MULTIPLIER = 0.2;
+
+const TIME_INTERVALS_IN_DAYS = [1, 4/24, 2/24, 1/24 ];
+const DATES = TIME_INTERVALS_IN_DAYS.map((x)=> Math.round(Date.now() / 1000 - (86400 * x)));
+const NUMBEROFDAYS = Math.max(TIME_INTERVALS_IN_DAYS);
+const TIME_IN_RANGE_TRESHOLD = 0.7;
 const NUMBEROFDAYS_HISTORICAL = 2;
 const DATE = Math.round(Date.now() / 1000 - (86400 * NUMBEROFDAYS));
 const DATE_HISTORICAL = Math.round(Date.now() / 1000 - (86400 * NUMBEROFDAYS_HISTORICAL));
@@ -383,6 +387,10 @@ const getStatsForPair = async(pairAddress) => {
     return result
 };
 
+const pairAddress = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11';
+const minPrice =  1;
+const maxPrice = 2;
+
 // // API get table for range and pair
 // getPoolsTableForRangeAndPair(pairAddress, minPrice, maxPrice)
 //     .then((res) => {
@@ -398,25 +406,7 @@ const getStatsForPair = async(pairAddress) => {
 
 
 // API get all pools
-// getPoolsTable()
-//     .then((res) => {
-//
-//         console.log("========================================================");
-//         console.log(res);
-//         console.log("========================================================")
-//
-//     })
-//     .catch((error) => {
-//         console.error(error)
-//     });
-
-
-const pairAddress = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11';
-const minPrice =  1;
-const maxPrice = 2;
-
-// API get stats for pair
-getStatsForPair(pairAddress)
+getPoolsTable()
     .then((res) => {
 
         console.log("========================================================");
@@ -427,6 +417,22 @@ getStatsForPair(pairAddress)
     .catch((error) => {
         console.error(error)
     });
+
+
+
+
+// API get stats for pair
+// getStatsForPair(pairAddress)
+//     .then((res) => {
+//
+//         console.log("========================================================");
+//         console.log(res);
+//         console.log("========================================================")
+//
+//     })
+//     .catch((error) => {
+//         console.error(error)
+//     });
 
 
 
