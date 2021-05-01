@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5b525502-2fd5-4d19-8d2d-08cdc9fe6a27" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -19,16 +20,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="91" lean-forward="true" selection-start-line="12" selection-start-column="91" selection-end-line="12" selection-end-column="91" />
+            <state relative-caret-position="310">
+              <caret line="145" column="57" lean-forward="true" selection-start-line="145" selection-start-column="57" selection-end-line="145" selection-end-column="57" />
               <folding>
-                <element signature="e#448#785#0" />
-                <element signature="e#828#1006#0" />
-                <element signature="e#1067#3153#0" />
-                <element signature="e#3442#5004#0" />
                 <element signature="e#5176#6374#0" />
-                <element signature="e#6440#8063#0" />
-                <element signature="e#9531#9845#0" />
                 <element signature="e#12122#12130#0" />
               </folding>
             </state>
@@ -47,8 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/helpers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-23">
-              <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
+            <state relative-caret-position="60">
+              <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -81,6 +76,10 @@
       <find>&lt;2</find>
       <find>&lt; 2</find>
       <find>getPoolsTable</find>
+      <find>i &lt;</find>
+      <find>i&lt;1</find>
+      <find>i&lt;2</find>
+      <find>i &lt; 2</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -92,8 +91,8 @@
         <option value="$PROJECT_DIR$/node_modules/rangeCompute.js" />
         <option value="$PROJECT_DIR$/node_modules/helpers.js" />
         <option value="$PROJECT_DIR$/rangeCompute.js" />
-        <option value="$PROJECT_DIR$/helpers.js" />
         <option value="$PROJECT_DIR$/timeseriesAnalysis.js" />
+        <option value="$PROJECT_DIR$/helpers.js" />
         <option value="$PROJECT_DIR$/index.js" />
       </list>
     </option>
@@ -172,12 +171,12 @@
       <updated>1619281994212</updated>
       <workItem from="1619281996759" duration="18054000" />
       <workItem from="1619370806922" duration="38016000" />
-      <workItem from="1619694895277" duration="18595000" />
+      <workItem from="1619694895277" duration="26258000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74665000" />
+    <option name="totallyTimeSpent" value="82328000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -220,66 +219,42 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
-          <line>81</line>
+          <line>83</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <condition expression="'LABRA-WETH' === pool.name" language="JavaScript" />
           <url>file://$PROJECT_DIR$/index.js</url>
-          <line>56</line>
+          <line>58</line>
           <option name="timeStamp" value="99" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
-          <line>116</line>
+          <line>160</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
-          <line>356</line>
+          <line>454</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="111" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
-          <line>357</line>
+          <line>455</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="112" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
-          <line>426</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="117" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>378</line>
+          <line>476</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="119" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
-          <line>407</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="125" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>340</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="127" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>342</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="128" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>96</line>
+          <line>140</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="129" />
         </line-breakpoint>
@@ -297,12 +272,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
-          <line>281</line>
+          <line>99</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="136" />
+          <option name="timeStamp" value="150" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/index.js</url>
+          <line>127</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="151" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="NodeJSConfigurationType">
+        <watch expression="p.transaction.timestamp" language="JavaScript" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointCondition">
@@ -323,6 +309,13 @@
       </expression>
       <expression>
         <expression-string>skip &gt; 0</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="watch">
+      <expression>
+        <expression-string>p.transaction.timestamp</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -350,13 +343,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helpers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-23">
-          <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/timeseriesAnalysis.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="387">
@@ -364,18 +350,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/helpers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="91" lean-forward="true" selection-start-line="12" selection-start-column="91" selection-end-line="12" selection-end-column="91" />
+        <state relative-caret-position="310">
+          <caret line="145" column="57" lean-forward="true" selection-start-line="145" selection-start-column="57" selection-end-line="145" selection-end-column="57" />
           <folding>
-            <element signature="e#448#785#0" />
-            <element signature="e#828#1006#0" />
-            <element signature="e#1067#3153#0" />
-            <element signature="e#3442#5004#0" />
             <element signature="e#5176#6374#0" />
-            <element signature="e#6440#8063#0" />
-            <element signature="e#9531#9845#0" />
             <element signature="e#12122#12130#0" />
           </folding>
         </state>
