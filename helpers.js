@@ -23,6 +23,24 @@ module.exports = {
         return inRange / rates.length;
     },
 
+    getCrossBorderAmounts : (rates, min, max) => {
+        let maxCross = 0;
+        let minCross = 0;
+        for( let i=1; i<= rates.length; i++) {
+            if(rates[i-1] < max && rates[i] >= max) {
+                maxCross += 1;
+            } else if(rates[i-1] > min && rates[i] <= min) {
+                    minCross += 1;
+
+            }
+        }
+
+        return {
+            maxCross,
+            minCross,
+        }
+    },
+
     getPair : async (pairId) => {
         return await _getPair(pairId);
     },
