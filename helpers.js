@@ -23,13 +23,13 @@ module.exports = {
         return inRange / rates.length;
     },
 
-    getCrossBorderAmounts : (rates, min, max) => {
+    getCrossBorderAmounts : (min, max, rates) => {
         let maxCross = 0;
         let minCross = 0;
-        for( let i=1; i<= rates.length; i++) {
-            if(rates[i-1] < max && rates[i] >= max) {
+        for( let i=1; i< rates.length; i++) {
+            if(rates[i-1].rate < max && rates[i].rate >= max) {
                 maxCross += 1;
-            } else if(rates[i-1] > min && rates[i] <= min) {
+            } else if(rates[i-1].rate > min && rates[i].rate <= min) {
                     minCross += 1;
 
             }
