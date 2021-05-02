@@ -7,7 +7,7 @@ const timeseriesAnalysis = require('./timeseriesAnalysis.js');
 const MIN_DAILY_VOLUME_USD = 100000;
 const MIN_DAILY_LIQUIDITY_USD = 100;
 
-const MULTIPLIER = 0.2;
+const MULTIPLIER = 30;
 
 const TIME_INTERVALS_IN_DAYS = [1, 4/24, 2/24, 1/24 ];
 const DATES = TIME_INTERVALS_IN_DAYS.map(x=> Math.round(Date.now() / 1000 - (86400 * x)));
@@ -138,20 +138,20 @@ const makeShortPoolsList = async (pairs, pairsStats, swaps, inputMin = null, inp
         // for (let i = 0; i < 2; i++) {
             const pool = {};
             pool.address = pairs[i].pairAddress;
-            pool.name = swaps[pool.address][0].pair.token0.symbol+'-'+swaps[pool.address][0].pair.token1.symbol;
-            pool.sigma2DownPrice = pairsStats[pairs[i].pairAddress].sigma2Down;
-            pool.sigma2UpPrice = pairsStats[pairs[i].pairAddress].sigma2Up;
+            pool.name = pairs[i].token0.symbol+'-'+pairs[i].token1.symbol;
+            pool.stdMaxPrice = pairsStats[pairs[i].pairAddress][1].stdMaxPrice;
+            pool.stdMinPrice = pairsStats[pairs[i].pairAddress][1].stdMinPrice;
+            pool.stdMultiplier = pairsStats[pairs[i].pairAddress][1].stdMultiplier;
             pool.minPrice = inputMin ? inputMin : pairsStats[pairs[i].pairAddress].periodMin;
             pool.maxPrice = inputMax ? inputMax : pairsStats[pairs[i].pairAddress].periodMax;
             pool.liquidity = Number(pairs[i].reserveUSD);
-            pool.dailyVolume = Number(pairs[i].dailyVolumeUSD);
-            pool.volumeInRange = Number(helpers.getVolumeForRange(pool.minPrice, pool.maxPrice, swaps[pool.address]));
-            pool.meanChange = await _getMeanChange(swaps[pool.address]);
+            pool.dailyVolume = Number(pairs[i].volumeUSD);
+            pool.volumeInRange = Number(helpers.getVolumeForRange(pool.minPrice, pool.maxPrice, swaps[pool.address][1]));
+            pool.meanChange = await _getMeanChange(swaps[pool.address][1]);
             // TODO Change pool fee according to v3 when available
             pool.fee = 0.3;
-            pool.currentPrice = swaps[pool.address][swaps[pool.address].length-1].rate;;
-            pool.timeInRange1Sigma = pairsStats[pairs[i].pairAddress].timeInRange1Sigma;
-            pool.timeInRange2Sigma = pairsStats[pairs[i].pairAddress].timeInRange2Sigma;
+            pool.currentPrice = swaps[pool.address][1][0].rate;
+            pool.timeInRange = pairsStats[pairs[i].pairAddress][1].timeInRange;
             pool.estimatedRevenue = pool.fee * ( pool.volumeInRange / pool.liquidity );
             pools[pool.address]=pool;
         }
@@ -449,17 +449,19 @@ const getPoolsTable = async () => {
 };
 
 const getPoolsTableForRangeAndPair = async(pairAdrdess, minPrice, maxPrice) => {
-    let result = [];
+    let result = {};
 
     return await helpers.getPair(pairAdrdess)
         .then(async (pairs) => {
-            return await getSwapData(pairs)
+            await getSwapDataByTimeInterval(pairs)
                 .then(async(swaps) => {
                     const stats = makePairsStats(swaps);
-                    return await makeShortPoolsList(pairs, stats, swaps, minPrice, maxPrice);
+                    result = await makeShortPoolsList(pairs, stats, swaps, minPrice, maxPrice);
+
+                    return result;
 
                 });
-
+            return result;
         });
 
     return result
@@ -536,8 +538,8 @@ const main = async () => {
     const maxPrice = 2;
 
     // let result =  await getPoolsTable();
-    let result =  await getStatsForPair(pairAddress);
-    //let result =  await getPoolsTableForRangeAndPair(pairAddress, minPrice, maxPrice)
+    // let result =  await getStatsForPair(pairAddress);
+    let result =  await getPoolsTableForRangeAndPair(pairAddress, minPrice, maxPrice)
 
     return result;
 
