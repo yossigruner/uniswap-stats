@@ -310,8 +310,8 @@ const getSwapData = async (pairs, historical = false) => {
 
     const swapData = {};
 
-    // for (let i=0; i<pairs.length; i++) {
-    for (let i=0; i<2; i++) {
+    for (let i=0; i<pairs.length; i++) {
+    // for (let i=0; i<2; i++) {
         const data = await _getSinglePairSwapData(pairs[i], i +1, pairs.length, historical);
         // TODO Check Rate
         data.forEach(e => e.rate = ( Math.abs(e.amount1In - e.amount1Out) / Math.abs(e.amount0In - e.amount0Out) ));
@@ -466,16 +466,15 @@ const getPoolsTableForRangeAndPair = async(pairAdrdess, minPrice, maxPrice) => {
 };
 
 const getStatsForPair = async(pairAddress) => {
-    let result = [];
+    let result = {};
 
     return await helpers.getPair(pairAddress)
         .then(async (pairs) => {
             return await getSwapData(pairs, historical = true)
                 .then(async(swaps) => {
-                    const stats = timeseriesAnalysis.analyze(swaps, pairAddress);
+                    result = timeseriesAnalysis.analyze(swaps, pairAddress);
 
-                    result = stats;
-
+                    return result;
                 });
 
         });
@@ -536,9 +535,9 @@ const main = async () => {
     const minPrice =  1;
     const maxPrice = 2;
 
-    let result =  await getPoolsTable();
-    // result =  await getStatsForPair(pairAddress);
-    // result =  await getPoolsTableForRangeAndPair(pairAddress, minPrice, maxPrice)
+    // let result =  await getPoolsTable();
+    let result =  await getStatsForPair(pairAddress);
+    //let result =  await getPoolsTableForRangeAndPair(pairAddress, minPrice, maxPrice)
 
     return result;
 
