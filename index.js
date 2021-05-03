@@ -6,10 +6,10 @@ const timeseriesAnalysis = require('./timeseriesAnalysis.js');
 const json2xls = require('json2xls');
 const fs = require('fs');
 
-const MIN_DAILY_VOLUME_USD = 100000;
-const MIN_DAILY_LIQUIDITY_USD = 1000;
+const MIN_DAILY_VOLUME_USD = 500000;
+const MIN_DAILY_LIQUIDITY_USD = 100000;
 
-const MULTIPLIER = 35;
+const MULTIPLIER = 0.2;
 
 const TIME_INTERVALS_IN_DAYS = [1, 4/24, 2/24, 1/24 ];
 const DATES = TIME_INTERVALS_IN_DAYS.map(x=> Math.round(Date.now() / 1000 - (86400 * x)));
