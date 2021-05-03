@@ -12,6 +12,14 @@ module.exports = {
 
         return volume;
     },
+    getVolumeInTime : (pairStats) => {
+        let volume = 0;
+        pairStats.forEach((ps) => {
+                volume += Number(ps.amountUSD);
+        });
+
+        return volume;
+    },
     getPercentageInRange : (rates, min, max) => {
         let inRange = 0;
         rates.forEach((r) => {
