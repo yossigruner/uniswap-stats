@@ -103,7 +103,7 @@ const makeShortPoolsListByTimeInterval= async (pairs, pairsStats, swaps) => {
                 pool.liquidity = Number(pairs[i].reserveUSD);
                 pool.dailyVolume = Number(pairs[i].dailyVolumeUSD);
                 const volumeInDailyRange = Number(helpers.getVolumeInTime(swaps[pool.address][1]));
-                const volumeDailyTimeRange = volumeInDailyRange * 100 / pairsStats[pairs[i].pairAddress][1].timeInRange;
+                const volumeDailyTimeRange = volumeInDailyRange * 1 / pairsStats[pairs[i].pairAddress][1].timeInRange;
 
                 Object.keys(pairsStats[pairs[i].pairAddress]).forEach(async (timeInterval) => {
                     const volumeInRange = Number(helpers.getVolumeInTime(swaps[pool.address][timeInterval]));
