@@ -102,19 +102,25 @@ const makeShortPoolsListByTimeInterval= async (pairs, pairsStats, swaps) => {
                 pool.name = swaps[pool.address][1][0].pair.token0.symbol+'-'+swaps[pool.address][1][0].pair.token1.symbol;
                 pool.liquidity = Number(pairs[i].reserveUSD);
                 pool.dailyVolume = Number(pairs[i].dailyVolumeUSD);
+                const volumeInDailyRange = Number(helpers.getVolumeInTime(swaps[pool.address][1]));
+                const volumeDailyTimeRange = volumeInDailyRange * 100 / pairsStats[pairs[i].pairAddress][1].timeInRange;
+
                 Object.keys(pairsStats[pairs[i].pairAddress]).forEach(async (timeInterval) => {
+                    const volumeInRange = Number(helpers.getVolumeInTime(swaps[pool.address][timeInterval]));
                     const subPool = {
                         timeInterval,
                         stdMinPrice: pairsStats[pairs[i].pairAddress][timeInterval].stdMinPrice,
                         stdMaxPrice: pairsStats[pairs[i].pairAddress][timeInterval].stdMaxPrice,
                         timeInRange: pairsStats[pairs[i].pairAddress][timeInterval].timeInRange,
-                        volumeInRange: Number(helpers.getVolumeInTime(swaps[pool.address][timeInterval])),
+                        lastRate: pairsStats[pairs[i].pairAddress][timeInterval].lastRate,
+                        volumeInRange,
+                        volumeDailyTimeRange,
                         fee: 0.3,
                         meanChange: await _getMeanChange(swaps[pool.address][timeInterval]),
                         minPrice: pairsStats[pairs[i].pairAddress][timeInterval].periodMin,
                         maxPrice: pairsStats[pairs[i].pairAddress][timeInterval].periodMax,
                     };
-                    const estimatedRevenue = subPool.fee * ( subPool.volumeInRange / pool.liquidity );
+                    const estimatedRevenue = subPool.fee * ( subPool.volumeDailyTimeRange / pool.liquidity );
                     const cross = helpers.getCrossBorderAmounts(pairsStats[pairs[i].pairAddress][timeInterval].stdMinPrice, pairsStats[pairs[i].pairAddress][timeInterval].stdMaxPrice, swaps[pool.address][timeInterval]);
                     subPool.crossRangeUpAmount = cross.maxCross;
                     subPool.crossRangeDownAmount = cross.minCross;
