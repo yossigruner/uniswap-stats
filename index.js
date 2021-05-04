@@ -8,8 +8,9 @@ const fs = require('fs');
 
 const MIN_DAILY_VOLUME_USD = 500000;
 const MIN_DAILY_LIQUIDITY_USD = 100000;
+const LIQUIDITY_V3 = false;
 
-const MULTIPLIER = 0.2;
+const MULTIPLIER = 14;
 
 const TIME_INTERVALS_IN_DAYS = [1, 4/24, 2/24, 1/24 ];
 const DATES = TIME_INTERVALS_IN_DAYS.map(x=> Math.round(Date.now() / 1000 - (86400 * x)));
@@ -95,44 +96,44 @@ const makeShortPoolsListByTimeInterval= async (pairs, pairsStats, swaps) => {
     const pools = {};
 
     const forLoop = async _ => {
-            for (let i = 0; i < pairs.length; i++) {
+        for (let i = 0; i < pairs.length; i++) {
             // for (let i = 0; i < 2; i++) {
-                const pool = {};
-                pool.address = pairs[i].pairAddress;
-                pool.name = swaps[pool.address][1][0].pair.token0.symbol+'-'+swaps[pool.address][1][0].pair.token1.symbol;
-                pool.liquidity = Number(pairs[i].reserveUSD);
-                pool.dailyVolume = Number(pairs[i].dailyVolumeUSD);
-                const volumeInDailyRange = Number(helpers.getVolumeInTime(swaps[pool.address][1]));
-                const volumeDailyTimeRange = volumeInDailyRange * 1 / pairsStats[pairs[i].pairAddress][1].timeInRange;
+            const pool = {};
+            pool.address = pairs[i].pairAddress;
+            pool.name = swaps[pool.address][1][0].pair.token0.symbol+'-'+swaps[pool.address][1][0].pair.token1.symbol;
+            pool.liquidity = Number(pairs[i].reserveUSD);
+            pool.dailyVolume = Number(pairs[i].dailyVolumeUSD);
+            const volumeInDailyRange = Number(helpers.getVolumeInTime(swaps[pool.address][1]));
+            const volumeDailyTimeRange = volumeInDailyRange * 1 / pairsStats[pairs[i].pairAddress][1].timeInRange;
 
-                Object.keys(pairsStats[pairs[i].pairAddress]).forEach(async (timeInterval) => {
-                    const volumeInRange = Number(helpers.getVolumeInTime(swaps[pool.address][timeInterval]));
-                    const subPool = {
-                        timeInterval,
-                        stdMinPrice: pairsStats[pairs[i].pairAddress][timeInterval].stdMinPrice,
-                        stdMaxPrice: pairsStats[pairs[i].pairAddress][timeInterval].stdMaxPrice,
-                        timeInRange: pairsStats[pairs[i].pairAddress][timeInterval].timeInRange,
-                        lastRate: pairsStats[pairs[i].pairAddress][timeInterval].lastRate,
-                        volumeInRange,
-                        volumeDailyTimeRange,
-                        fee: 0.3,
-                        meanChange: await _getMeanChange(swaps[pool.address][timeInterval]),
-                        minPrice: pairsStats[pairs[i].pairAddress][timeInterval].periodMin,
-                        maxPrice: pairsStats[pairs[i].pairAddress][timeInterval].periodMax,
-                    };
-                    const estimatedRevenue = subPool.fee * ( subPool.volumeDailyTimeRange / pool.liquidity );
-                    const cross = helpers.getCrossBorderAmounts(pairsStats[pairs[i].pairAddress][timeInterval].stdMinPrice, pairsStats[pairs[i].pairAddress][timeInterval].stdMaxPrice, swaps[pool.address][timeInterval]);
-                    subPool.crossRangeUpAmount = cross.maxCross;
-                    subPool.crossRangeDownAmount = cross.minCross;
-                    subPool.estimatedRevenue = estimatedRevenue;
+            Object.keys(pairsStats[pairs[i].pairAddress]).forEach(async (timeInterval) => {
+                const volumeInRange = Number(helpers.getVolumeInTime(swaps[pool.address][timeInterval]));
+                const subPool = {
+                    timeInterval,
+                    recommendedMinPrice: pairsStats[pairs[i].pairAddress][timeInterval].stdMinPrice,
+                    recommendedMaxPrice: pairsStats[pairs[i].pairAddress][timeInterval].stdMaxPrice,
+                    timeInRange: pairsStats[pairs[i].pairAddress][timeInterval].timeInRange,
+                    lastRate: pairsStats[pairs[i].pairAddress][timeInterval].lastRate,
+                    volumeInRange,
+                    volumeDailyTimeRange,
+                    fee: 0.3,
+                    meanChange: await _getMeanChange(swaps[pool.address][timeInterval]),
+                    minPrice: pairsStats[pairs[i].pairAddress][timeInterval].periodMin,
+                    maxPrice: pairsStats[pairs[i].pairAddress][timeInterval].periodMax,
+                };
+                const estimatedRevenue = subPool.fee * ( subPool.volumeDailyTimeRange / pool.liquidity );
+                const cross = helpers.getCrossBorderAmounts(pairsStats[pairs[i].pairAddress][timeInterval].stdMinPrice, pairsStats[pairs[i].pairAddress][timeInterval].stdMaxPrice, swaps[pool.address][timeInterval]);
+                subPool.crossRangeUpAmount = cross.maxCross;
+                subPool.crossRangeDownAmount = cross.minCross;
+                subPool.estimatedRevenue = estimatedRevenue;
 
-                    pool[timeInterval] = !subPool.stdMaxPrice ? {} : subPool;
-                });
+                pool[timeInterval] = !subPool.recommendedMaxPrice ? {} : subPool;
+            });
 
-                pools[pool.address]=pool;
-            }
-        };
-        await forLoop();
+            pools[pool.address]=pool;
+        }
+    };
+    await forLoop();
     return pools;
 };
 
@@ -562,7 +563,7 @@ const getPoolsTable = async () => {
                 .then(async(swaps) => {
                     const stats = makePairsStats(swaps);
                     result = await makeShortPoolsListByTimeInterval(pairs, stats, swaps);
-                    result = pprint(result);
+                    result = await pprint(result);
 
                     const xls = json2xls(result);
                     fs.writeFileSync('./output/uniswap_pools_data_'+ Date() +'_.xlsx', xls, 'binary');
@@ -609,48 +610,37 @@ const getStatsForPair = async(pairAddress) => {
     return result
 };
 
-const pprint = (data) => {
+const pprint = async (data) => {
     console.log();
     const res = []
 
-    // Object.keys(data).forEach((d) => {
-    //     TIME_INTERVALS_IN_DAYS.forEach((timeInterval) => {
-    //         const newObj = {};
-    //         Object.keys(data[d]).forEach((k) => {
-    //             if ( TIME_INTERVALS_IN_DAYS.includes(Number(k)) ){
-    //                 Object.keys(data[d][k]).forEach((l) => {
-    //                     newObj[l] = data[d][k][l];
-    //                 });
-    //             } else {
-    //                 newObj[k] = data[d][k];
-    //             }
-    //
-    //             res.push(newObj);
-    //         });
-    //
-    //
-    //         });
-    //     });
-
 
     TIME_INTERVALS_IN_DAYS.forEach((time) => {
-        Object.keys(data).forEach((d) => {
+        Object.keys(data).forEach( (d) => {
             const obj = {};
             obj.address = data[d].address;
             obj.dailyVolume = data[d].dailyVolume;
-            obj.liquidity = data[d].liquidity;
+            obj.liquidityV2 = data[d].liquidity;
             obj.name = data[d].name;
                 Object.keys(data[d][time]).forEach((k)=>{
                     obj[k] = data[d][time][k];
                 });
 
-                res.push(obj);
+               res.push(obj);
             });
         });
 
+    if(LIQUIDITY_V3 === true) {
+        const forLoop = async _ => {
+            for (let i = 0; i < res.length; i++) {
+                res[i].liquidityInRecommendedRange = await helpers.getLiquiditySumForPoolAndRange(res[i].address, res[i].recommendedMinPrice, res[i].recommendedMaxPrice);
+                res[i].estimatedRevenue = res[i].fee * ( res[i].volumeDailyTimeRange / res[i].liquidityInRecommendedRange );
+            }
+        };
+        await forLoop();
+    }
 
-
-    return res.sort((a,b) => (a.estimatedRevenue < b.estimatedRevenue) ? 1 : ((b.estimatedRevenue > a.estimatedRevenue) ? -1 : 0));
+    return await res.sort((a,b) => (a.estimatedRevenue < b.estimatedRevenue) ? 1 : ((b.estimatedRevenue > a.estimatedRevenue) ? -1 : 0));
 };
 
 

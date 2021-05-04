@@ -12,6 +12,12 @@ module.exports = {
 
         return volume;
     },
+
+    getLiquiditySumForPoolAndRange : async (poolAddress, minPrice, maxPrice) => {
+        return await _getLiquiditySumForPoolAndRange(poolAddress, minPrice, maxPrice );
+    },
+
+
     getVolumeInTime : (pairStats) => {
         let volume = 0;
         pairStats.forEach((ps) => {
@@ -54,6 +60,70 @@ module.exports = {
     },
 
 };
+
+const _getLiquiditiesForPair = async (poolAddress) => {
+    const res = await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-rinkeby', {
+        query: `
+                {
+  ticks(where: {poolAddress: "`+ poolAddress +`"}){
+    poolAddress
+    tickIdx
+    liquidityNet,
+    liquidityGross,
+    liquidityProviderCount,
+    createdAtBlockNumber,
+    volumeUSD,
+    price0,
+    price1,
+    untrackedVolumeUSD
+  }
+}
+
+        `
+    });
+
+    if (!res.data.data  | !res.data.data.ticks) {
+        return null;
+    }
+
+    return res.data.data.ticks;
+};
+
+const _getLiquiditySumForPoolAndRange = async (poolAddress, minPrice, maxPrice) => {
+    const activePools = await _getLiquiditiesForPair(poolAddress);
+    let liquiditySum = 0.00000000000001;
+
+    activePools.forEach((pool) => {
+        if(rangeIntersection([minPrice, maxPrice], [Number(pool.price0), Number(pool.price1)])) {
+            liquiditySum += Number(pool.liquidityGross);
+        }
+    });
+
+    return liquiditySum;
+};
+
+
+// const t = _getLiquiditySumForPoolAndRange('0x21e99aeecd1cfe260b573ef9cd5f915f78af563d', 4.271223424139419e-9, 4.782958283300437e-10)
+//     .then((l) => console.log(l));
+
+const rangeIntersection = (a , b) => {
+    const min = (a[0] < b[0] ? a : b);
+    const max = (min == a ? b : a);
+
+    if (min[1] < max[0] ) {
+        return false;
+    }
+
+    const r = [max[0] , min[1] < max[1] ? min[1] : max[1]];
+
+    if(!r || r.length == 0) {
+        return false;
+    }
+
+    return true;
+};
+
+
 
 const _getPair = async (pairId) => {
     const res = await axios.post('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', {
