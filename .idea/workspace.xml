@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b525502-2fd5-4d19-8d2d-08cdc9fe6a27" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
@@ -19,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="635" column="34" selection-start-line="635" selection-start-column="34" selection-end-line="635" selection-end-column="34" />
+            <state relative-caret-position="133">
+              <caret line="703" column="4" selection-start-line="703" selection-start-column="4" selection-end-line="703" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -28,8 +29,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/helpers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="109" column="26" selection-start-line="109" selection-start-column="26" selection-end-line="109" selection-end-column="26" />
+            <state relative-caret-position="167">
+              <caret line="15" column="34" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -45,9 +46,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>makePairS</find>
-      <find>time</find>
-      <find>_getVolumeForRange</find>
       <find>_getPercentageInRange</find>
       <find>&lt;2</find>
       <find>&lt; 2</find>
@@ -74,6 +72,9 @@
       <find>pool.liquidity</find>
       <find>recommendedMaxPrice</find>
       <find>subPool</find>
+      <find>forLoop</find>
+      <find>pprin</find>
+      <find>liqui</find>
       <find>pprint</find>
     </findStrings>
   </component>
@@ -88,14 +89,15 @@
         <option value="$PROJECT_DIR$/rangeCompute.js" />
         <option value="$PROJECT_DIR$/timeseriesAnalysis.js" />
         <option value="$PROJECT_DIR$/tryQueries.js" />
-        <option value="$PROJECT_DIR$/helpers.js" />
         <option value="$PROJECT_DIR$/index.js" />
+        <option value="$PROJECT_DIR$/helpers.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="y" value="28" />
     <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="height" value="872" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -109,11 +111,6 @@
             <path>
               <item name="uniswap-stats" type="b2602c69:ProjectViewProjectNode" />
               <item name="uniswap-stats" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="uniswap-stats" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uniswap-stats" type="462c0819:PsiDirectoryNode" />
-              <item name="output" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -175,12 +172,13 @@
       <workItem from="1619281996759" duration="18054000" />
       <workItem from="1619370806922" duration="38016000" />
       <workItem from="1619694895277" duration="26550000" />
-      <workItem from="1620017689011" duration="29850000" />
+      <workItem from="1620017689011" duration="31689000" />
+      <workItem from="1620217620846" duration="4840000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="122990000" />
+    <option name="totallyTimeSpent" value="129669000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -192,16 +190,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="0" y="28" width="1440" height="872" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49411765" visible="true" weight="0.18604651" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49284253" visible="true" weight="0.18604651" />
       <window_info id="Structure" order="1" sideWeight="0.5058824" side_tool="true" weight="0.18604651" />
-      <window_info id="npm" order="2" sideWeight="0.5058824" side_tool="true" visible="true" weight="0.18604651" />
+      <window_info id="npm" order="2" sideWeight="0.50715744" side_tool="true" visible="true" weight="0.18604651" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.25903615" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.28313252" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.25810474" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39027432" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32970297" />
@@ -243,7 +241,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
-          <line>704</line>
+          <line>701</line>
           <option name="timeStamp" value="157" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -259,80 +257,27 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
           <line>419</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="174" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
           <line>533</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="176" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
           <line>470</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="177" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
           <line>202</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="180" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.js</url>
           <line>604</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="188" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>565</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="204" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>645</line>
-          <properties />
-          <option name="timeStamp" value="241" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>633</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="244" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>632</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="245" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>631</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="246" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>630</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="247" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>629</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="248" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <line>635</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="249" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -411,15 +356,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/helpers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="109" column="26" selection-start-line="109" selection-start-column="26" selection-end-line="109" selection-end-column="26" />
+        <state relative-caret-position="167">
+          <caret line="15" column="34" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="635" column="34" selection-start-line="635" selection-start-column="34" selection-end-line="635" selection-end-column="34" />
+        <state relative-caret-position="133">
+          <caret line="703" column="4" selection-start-line="703" selection-start-column="4" selection-end-line="703" selection-end-column="4" />
         </state>
       </provider>
     </entry>

@@ -8,9 +8,9 @@ const fs = require('fs');
 
 const MIN_DAILY_VOLUME_USD = 500000;
 const MIN_DAILY_LIQUIDITY_USD = 100000;
-const LIQUIDITY_V3 = false;
+const LIQUIDITY_V3 = true;
 
-const MULTIPLIER = 14;
+const MULTIPLIER = 15;
 
 const TIME_INTERVALS_IN_DAYS = [1, 4/24, 2/24, 1/24 ];
 const DATES = TIME_INTERVALS_IN_DAYS.map(x=> Math.round(Date.now() / 1000 - (86400 * x)));
@@ -612,7 +612,7 @@ const getStatsForPair = async(pairAddress) => {
 
 const pprint = async (data) => {
     console.log();
-    const res = []
+    const res = [];
 
 
     TIME_INTERVALS_IN_DAYS.forEach((time) => {
@@ -633,8 +633,9 @@ const pprint = async (data) => {
     if(LIQUIDITY_V3 === true) {
         const forLoop = async _ => {
             for (let i = 0; i < res.length; i++) {
-                res[i].liquidityInRecommendedRange = await helpers.getLiquiditySumForPoolAndRange(res[i].address, res[i].recommendedMinPrice, res[i].recommendedMaxPrice);
+                res[i].liquidityInRecommendedRange = await helpers.getLiquiditySumForPoolAndRange(res[i].address, res[i].recommendedMinPrice, res[i].recommendedMaxPrice, res[i].name);
                 res[i].estimatedRevenue = res[i].fee * ( res[i].volumeDailyTimeRange / res[i].liquidityInRecommendedRange );
+                res[i].estimatedRevenueV2 = res[i].fee * ( res[i].volumeDailyTimeRange / res[i].liquidityV2 );
             }
         };
         await forLoop();

@@ -13,8 +13,8 @@ module.exports = {
         return volume;
     },
 
-    getLiquiditySumForPoolAndRange : async (poolAddress, minPrice, maxPrice) => {
-        return await _getLiquiditySumForPoolAndRange(poolAddress, minPrice, maxPrice );
+    getLiquiditySumForPoolAndRange : async (poolAddress, minPrice, maxPrice, name) => {
+        return await _getLiquiditySumForPoolAndRange(poolAddress, minPrice, maxPrice, name );
     },
 
 
@@ -61,11 +61,67 @@ module.exports = {
 
 };
 
-const _getLiquiditiesForPair = async (poolAddress) => {
-    const res = await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-rinkeby', {
+const _getLiquiditiesForPair = async (poolAddress, name) => {
+   console.log('[helpers._getLiquiditiesForPair]-Calling for pair - ' + name );
+    const pool = await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph', {
         query: `
                 {
-  ticks(where: {poolAddress: "`+ poolAddress +`"}){
+  pools
+  {
+    id,
+    liquidityProviderCount,
+    createdAtBlockNumber,
+    volumeUSD,
+    liquidity,
+    feeTier,
+    sqrtPrice,
+    tick,
+    ticks {
+      id
+    }
+    token0 {
+      id,
+      name,
+      symbol
+    },
+    token1 {
+      id,
+      name,
+      symbol
+    },
+    ticks {
+      id
+    }
+
+  }
+  }
+
+        `
+    });
+
+    if (!pool.data.data  | !pool.data.data.pools) {
+        return null;
+    }
+
+    const relevantPools = [];
+
+    pool.data.data.pools.forEach((pool) => {
+        const token0Symbol = pool.token0.symbol;
+        const token1Symbol = pool.token1.symbol;
+
+        if(token0Symbol+'-'+token1Symbol === name || token1Symbol + '-' + token0Symbol === name) {
+            relevantPools.push(pool)
+        }
+    });
+
+    if (relevantPools.length === 0) {
+        return [];
+    }
+
+    const res = await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph', {
+        query: `
+                {
+  ticks(where: {poolAddress: "`+ relevantPools[0].id +`"}){
     poolAddress
     tickIdx
     liquidityNet,
@@ -89,12 +145,19 @@ const _getLiquiditiesForPair = async (poolAddress) => {
     return res.data.data.ticks;
 };
 
-const _getLiquiditySumForPoolAndRange = async (poolAddress, minPrice, maxPrice) => {
-    const activePools = await _getLiquiditiesForPair(poolAddress);
+const _getLiquiditySumForPoolAndRange = async (poolAddress, minPrice, maxPrice, name) => {
+    const activePools = await _getLiquiditiesForPair(poolAddress, name);
     let liquiditySum = 0.00000000000001;
 
     activePools.forEach((pool) => {
-        if(rangeIntersection([minPrice, maxPrice], [Number(pool.price0), Number(pool.price1)])) {
+        let small = Number(pool.price0);
+        let big = Number(pool.price1);
+        if(small > big) {
+            small = big;
+            big = Number(pool.price0);
+        }
+
+        if(rangeIntersection([minPrice, maxPrice], [small, big])) {
             liquiditySum += Number(pool.liquidityGross);
         }
     });
