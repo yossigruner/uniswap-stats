@@ -262,6 +262,6 @@ const _getTokenData = async (tokenId) => {
         dailyLiquidityUsd: res.data.data.tokenDayDatas[0].totalLiquidityUSD,
         priceUsd: res.data.data.tokenDayDatas[0].priceUSD,
     }
-}
+};
 
 
