@@ -13,6 +13,23 @@ module.exports = {
         return volume;
     },
 
+    rangeIntersection : (a , b) => {
+        const min = (a[0] < b[0] ? a : b);
+        const max = (min == a ? b : a);
+
+        if (min[1] < max[0] ) {
+            return false;
+        }
+
+        const r = [max[0] , min[1] < max[1] ? min[1] : max[1]];
+
+        if(!r || r.length == 0) {
+            return false;
+        }
+
+        return true;
+    },
+
     getLiquiditySumForPoolAndRange : async (poolAddress, minPrice, maxPrice, name) => {
         return await _getLiquiditySumForPoolAndRange(poolAddress, minPrice, maxPrice, name );
     },
@@ -169,22 +186,7 @@ const _getLiquiditySumForPoolAndRange = async (poolAddress, minPrice, maxPrice, 
 // const t = _getLiquiditySumForPoolAndRange('0x21e99aeecd1cfe260b573ef9cd5f915f78af563d', 4.271223424139419e-9, 4.782958283300437e-10)
 //     .then((l) => console.log(l));
 
-const rangeIntersection = (a , b) => {
-    const min = (a[0] < b[0] ? a : b);
-    const max = (min == a ? b : a);
 
-    if (min[1] < max[0] ) {
-        return false;
-    }
-
-    const r = [max[0] , min[1] < max[1] ? min[1] : max[1]];
-
-    if(!r || r.length == 0) {
-        return false;
-    }
-
-    return true;
-};
 
 
 

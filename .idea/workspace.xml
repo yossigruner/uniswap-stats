@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b525502-2fd5-4d19-8d2d-08cdc9fe6a27" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/v3/apiv3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/v3/api.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/v3/apiv3Queries.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/v3/consts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/v3/liquidityInRange.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/v3/pools.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indexv3.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/indexv3.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/v3/apiv3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/v3/indexv3.js" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,49 +21,50 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/index.js">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="99">
+                    <caret line="307" selection-start-line="307" selection-end-line="348" selection-end-column="2" />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="282" column="24" lean-forward="true" selection-start-line="282" selection-start-column="24" selection-end-line="282" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/helpers.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2565">
-              <caret line="171" selection-start-line="171" selection-end-line="186" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/v3/indexv3.js">
+        <entry file="file://$PROJECT_DIR$/v3/api.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="85" selection-start-line="14" selection-start-column="85" selection-end-line="14" selection-end-column="85" />
+            <state relative-caret-position="244">
+              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package.json">
+        <entry file="file://$PROJECT_DIR$/v3/pools.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+            <state relative-caret-position="414">
+              <caret line="111" lean-forward="true" selection-start-line="111" selection-end-line="111" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/v3/apiv3.js">
+        <entry file="file://$PROJECT_DIR$/v3/apiv3Queries.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="51" column="16" selection-start-line="51" selection-start-column="16" selection-end-line="51" selection-end-column="16" />
+            <state relative-caret-position="261">
+              <caret line="111" column="64" selection-start-line="111" selection-start-column="64" selection-end-line="111" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -118,13 +123,17 @@
         <option value="$PROJECT_DIR$/rangeCompute.js" />
         <option value="$PROJECT_DIR$/timeseriesAnalysis.js" />
         <option value="$PROJECT_DIR$/tryQueries.js" />
-        <option value="$PROJECT_DIR$/index.js" />
-        <option value="$PROJECT_DIR$/helpers.js" />
         <option value="$PROJECT_DIR$/indexv3.js" />
-        <option value="$PROJECT_DIR$/v3/apiv3.js" />
         <option value="$PROJECT_DIR$/node_modules/jsbi/package.json" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/helpers.js" />
         <option value="$PROJECT_DIR$/v3/indexv3.js" />
+        <option value="$PROJECT_DIR$/v3/liquidityInRange.js" />
+        <option value="$PROJECT_DIR$/v3/consts.js" />
+        <option value="$PROJECT_DIR$/index.js" />
+        <option value="$PROJECT_DIR$/v3/apiv3.js" />
+        <option value="$PROJECT_DIR$/v3/pools.js" />
+        <option value="$PROJECT_DIR$/v3/api.js" />
       </list>
     </option>
   </component>
@@ -184,14 +193,20 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Node.js.indexv3.js">
+  <component name="RunManager" selected="Node.js.api.js">
+    <configuration name="api.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="v3/api.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
     <configuration name="helpers.jד" type="NodeJSConfigurationType" path-to-js-file="helpers.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
     <configuration name="index.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="index.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
-    <configuration name="indexv3.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/v3/indexv3.js" working-dir="$PROJECT_DIR$">
+    <configuration name="liquidityInRange.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="v3/liquidityInRange.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <configuration name="pools.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="v3/pools.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
     <configuration name="range" type="NodeJSConfigurationType" path-to-js-file="rangeCompute.js" working-dir="$PROJECT_DIR$">
@@ -199,7 +214,9 @@
     </configuration>
     <list>
       <item itemvalue="Node.js.index.js" />
-      <item itemvalue="Node.js.indexv3.js" />
+      <item itemvalue="Node.js.liquidityInRange.js" />
+      <item itemvalue="Node.js.api.js" />
+      <item itemvalue="Node.js.pools.js" />
       <item itemvalue="Node.js.helpers.jד" />
       <item itemvalue="Node.js.range" />
     </list>
@@ -219,12 +236,12 @@
       <workItem from="1619694895277" duration="26550000" />
       <workItem from="1620017689011" duration="31689000" />
       <workItem from="1620217620846" duration="11444000" />
-      <workItem from="1620330543008" duration="9133000" />
+      <workItem from="1620330543008" duration="21893000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="145406000" />
+    <option name="totallyTimeSpent" value="158166000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -239,15 +256,15 @@
     <frame x="0" y="28" width="1440" height="872" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7149123" visible="true" weight="0.18604651" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.71267605" visible="true" weight="0.18604651" />
       <window_info id="Structure" order="1" sideWeight="0.5058824" side_tool="true" weight="0.18604651" />
-      <window_info id="npm" order="2" sideWeight="0.2850877" side_tool="true" visible="true" weight="0.18604651" />
+      <window_info id="npm" order="2" sideWeight="0.28732395" side_tool="true" visible="true" weight="0.18604651" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="TypeScript" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.25810474" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.43142146" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5573566" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.43142146" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32970297" />
@@ -329,63 +346,57 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/helpers.js</url>
-          <line>154</line>
+          <line>171</line>
           <option name="timeStamp" value="259" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/helpers.js</url>
-          <line>151</line>
+          <line>168</line>
           <option name="timeStamp" value="260" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/helpers.js</url>
-          <line>101</line>
+          <line>118</line>
           <option name="timeStamp" value="261" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/indexv3.js</url>
+          <url>file://$PROJECT_DIR$/v3/liquidityInRange.js</url>
           <line>134</line>
           <option name="timeStamp" value="262" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/indexv3.js</url>
+          <url>file://$PROJECT_DIR$/v3/liquidityInRange.js</url>
           <line>67</line>
           <option name="timeStamp" value="267" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/indexv3.js</url>
+          <url>file://$PROJECT_DIR$/v3/liquidityInRange.js</url>
           <line>76</line>
           <option name="timeStamp" value="269" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/indexv3.js</url>
-          <line>65</line>
+          <url>file://$PROJECT_DIR$/v3/liquidityInRange.js</url>
+          <line>78</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="278" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/indexv3.js</url>
-          <line>61</line>
+          <url>file://$PROJECT_DIR$/v3/liquidityInRange.js</url>
+          <line>18</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="281" />
+          <option name="timeStamp" value="295" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/indexv3.js</url>
-          <line>76</line>
+          <url>file://$PROJECT_DIR$/v3/liquidityInRange.js</url>
+          <line>75</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="287" />
+          <option name="timeStamp" value="299" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/indexv3.js</url>
-          <line>92</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="289" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/indexv3.js</url>
-          <line>89</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="290" />
+          <url>file://$PROJECT_DIR$/v3/pools.js</url>
+          <line>56</line>
+          <properties />
+          <option name="timeStamp" value="304" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -462,20 +473,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helpers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2565">
-          <caret line="171" selection-start-line="171" selection-end-line="186" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="282" column="24" lean-forward="true" selection-start-line="282" selection-start-column="24" selection-end-line="282" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/jsbi/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -486,6 +483,27 @@
     <entry file="file://$PROJECT_DIR$/node_modules/jsbi/jsbi.d.ts">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/jsbi/dist/jsbi-cjs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/axios/lib/core/createError.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/liquidityInRange.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="4" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -493,24 +511,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/jsbi/dist/jsbi-cjs.js">
+    <entry file="file://$PROJECT_DIR$/v3/consts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="3200" selection-start-column="3200" selection-end-column="3200" />
+        <state relative-caret-position="435">
+          <caret line="29" column="2" lean-forward="true" selection-start-line="29" selection-start-column="2" selection-end-line="29" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/apiv3.js">
+    <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="51" column="16" selection-start-line="51" selection-start-column="16" selection-end-line="51" selection-end-column="16" />
+        <state relative-caret-position="99">
+          <caret line="307" selection-start-line="307" selection-end-line="348" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/indexv3.js">
+    <entry file="file://$PROJECT_DIR$/helpers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="85" selection-start-line="14" selection-start-column="85" selection-end-line="14" selection-end-column="85" />
+        <state relative-caret-position="180">
+          <caret line="12" column="22" lean-forward="true" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/apiv3Queries.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="111" column="64" selection-start-line="111" selection-start-column="64" selection-end-line="111" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/pools.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="111" lean-forward="true" selection-start-line="111" selection-end-line="111" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
         </state>
       </provider>
     </entry>
