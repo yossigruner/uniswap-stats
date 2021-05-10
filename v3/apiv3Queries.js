@@ -24,7 +24,9 @@ const getPoolByPoolId = async (poolId) => {
                   liquidityGross,
                   liquidityNet,
                   liquidityProviderCount,
-                  tickIdx
+                  tickIdx,
+                  volumeToken0,
+                  volumeToken1
                 },
                 mints{
                   amountUSD,
