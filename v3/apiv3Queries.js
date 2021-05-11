@@ -31,7 +31,8 @@ const getPoolByPoolId = async (poolId) => {
                 mints{
                   amountUSD,
                   tickLower,
-                  tickUpper
+                  tickUpper,
+                  amount
                 }
                 token0 {
                   id,

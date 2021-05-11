@@ -4,8 +4,8 @@ const json2xls = require('json2xls');
 const JSBI = require('jsbi');
 
 // const add = JSBI.add(JSBI.BigInt(JSBI.BigInt(12282871151793690122962)));
-const result = JSBI.leftShift(JSBI.BigInt(12282871151793690122962), JSBI.BigInt(96));
-console.log('yossi:  ' + JSBI.toNumber(result));
+// const result = JSBI.leftShift(JSBI.BigInt(12282871151793690122962), JSBI.BigInt(96));
+// console.log('yossi:  ' + JSBI.toNumber(result));
 
 
 
@@ -13,11 +13,11 @@ console.log('yossi:  ' + JSBI.toNumber(result));
 // API - Get liquidity in range
 
 const poolId = '0x5116f278d095ec2ad3a14090fedb3e499b8b5af6';
-const minRange = 18005;
-const maxRange = 50000;
+const minRange = 2200;
+const maxRange = 2300;
 
 
-const res = liquidityInRange.getEtrLiquidityInRangeforPoolId(poolId, minRange, maxRange)
+const res = liquidityInRange.getLiquidityInRangeforPoolId(poolId, minRange, maxRange)
     .then((res) => {
         console.log(res);
         // const xls = json2xls(res);

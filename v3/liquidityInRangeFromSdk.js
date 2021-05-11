@@ -61,39 +61,109 @@ function amount1(token1, tickCurrent, tickLower, tickUpper, liquidity, sqrtRatio
     }
 }
 
-const _getTickForPrice = (n, base = 1.0001) => (Math.log(n) / Math.log(base));
+const _getTickForPrice = (n, base = 1.0001) => {
+    let res = (Math.log(n) / Math.log(base));
+
+
+    return Number((res.toFixed(0)/10).toFixed(0)*10);
+
+};
 const _getPriceForTick = (n) => (Math.pow(1.0001, n));
 
-function getLiquidityInRange(pool, minPrice, maxPrice, etrUsdPool) {
+function getIntersectingMints(pool, minPrice, maxPrice) {
+    const tickLower = Number(_getTickForPrice(minPrice));
+    const tickUpper = Number(_getTickForPrice(maxPrice));
+
+    const mints = [];
+    pool.mints.forEach((m) => {
+        if(helpers.rangeIntersection([tickLower, tickUpper],[m.tickLower, m.tickUpper])) {
+            mints.push(m);
+        }
+    });
+
+    return mints;
+}
+
+function getLiquidityForMint(pool, mint) {
     const addressToken0 = pool.token0.id;
     const addressToken1 = pool.token1.id;
-    const liquidity = Number(pool.liquidity);
     const sqrtPrice = Number(pool.sqrtPrice);
     const currentTick  = Number(pool.tick);
     const rate = 1/_getPriceForTick(currentTick);
-    const etrUsdcRate = _getPriceForTick(Number(etrUsdPool.tick));;
-    const tickLower = Number(_getTickForPrice(minPrice).toFixed(0));
-    const tickUpper = Number(_getTickForPrice(maxPrice).toFixed(0));
+
+    const tickLower = mint.tickLower;
+    const tickUpper = mint.tickUpper;
+
 
     const token0 = new Token(1, addressToken0, 18, pool.token0.symbol, pool.token0.name);
-    const amount0Token0 = amount0(token0, currentTick, tickLower, tickUpper, JSBI.BigInt(liquidity), JSBI.BigInt(sqrtPrice));
+    const amount0Token0 = amount0(token0, currentTick, Number(Number(mint.tickLower).toFixed(0)), Number(Number(mint.tickUpper).toFixed(0)), JSBI.BigInt(mint.amount), JSBI.BigInt(sqrtPrice));
 
     const token1 = new Token(1, addressToken1, 18, pool.token1.symbol, pool.token1.name);
-    const amount1Token1 = amount1(token1, currentTick, tickLower, tickUpper, JSBI.BigInt(liquidity), JSBI.BigInt(sqrtPrice));
+    const amount1Token1 = amount1(token1, currentTick, Number(Number(mint.tickLower).toFixed(0)), Number(Number(mint.tickUpper).toFixed(0)), JSBI.BigInt(mint.amount), JSBI.BigInt(sqrtPrice));
 
     const t0 = Number(amount0Token0.toSignificant(4));
     const t1 = Number(amount1Token1.toSignificant(4));
 
-    const etrAmount = Number(t0) + Number(t1) * rate;
-    const usdAmount = etrAmount * etrUsdcRate;
+    const ethAmount = Number(t0) + Number(t1) * rate;
 
     return ({
-        'ETR': etrAmount,
-        // 'USD': usdAmount,
+        t0,
+        t1,
     });
 }
 
-async function getEtrLiquidityInRangeforPoolId(poolId, min, max) {
+function getLiquidityInRange(pool, minPrice, maxPrice) {
+    const mints = getIntersectingMints(pool, minPrice, maxPrice);
+    let t0Amout = 0;
+    let t1Amount = 0;
+    mints.forEach((m) => {
+        const amounts = getLiquidityForMint(pool, m);
+        t0Amout += amounts.t0;
+        t1Amount += amounts.t1;
+    });
+
+    return {
+        t0Amout,
+        t1Amount,
+    };
+}
+
+// function getLiquidityInRange(pool, minPrice, maxPrice, etrUsdPool) {
+//     const addressToken0 = pool.token0.id;
+//     const addressToken1 = pool.token1.id;
+//     const liquidity = Number(pool.liquidity);
+//     const sqrtPrice = Number(pool.sqrtPrice);
+//     const currentTick  = Number(pool.tick);
+//     const rate = 1/_getPriceForTick(currentTick);
+//     const etrUsdcRate = _getPriceForTick(Number(etrUsdPool.tick));
+//     const tickLower = _getTickForPrice(minPrice);
+//     const tickUpper = _getTickForPrice(maxPrice);
+//     let mint = {};
+//     pool.mints.forEach((m) => {
+//         if(m.tickLower == tickLower && m.tickUpper == tickUpper) {
+//             mint = m;
+//         }
+//     });
+//
+//     const token0 = new Token(1, addressToken0, 18, pool.token0.symbol, pool.token0.name);
+//     const amount0Token0 = amount0(token0, currentTick, Number(Number(mint.tickLower).toFixed(0)), Number(Number(mint.tickUpper).toFixed(0)), JSBI.BigInt(mint.amount), JSBI.BigInt(sqrtPrice));
+//
+//     const token1 = new Token(1, addressToken1, 18, pool.token1.symbol, pool.token1.name);
+//     const amount1Token1 = amount1(token1, currentTick, Number(Number(mint.tickLower).toFixed(0)), Number(Number(mint.tickUpper).toFixed(0)), JSBI.BigInt(mint.amount), JSBI.BigInt(sqrtPrice));
+//
+//     const t0 = Number(amount0Token0.toSignificant(4));
+//     const t1 = Number(amount1Token1.toSignificant(4));
+//
+//     const etrAmount = Number(t0) + Number(t1) * rate;
+//     const usdAmount = etrAmount * etrUsdcRate;
+//
+//     return ({
+//         'ETR': etrAmount,
+//         // 'USD': usdAmount,
+//     });
+// }
+
+async function getLiquidityInRangeforPoolId(poolId, min, max) {
     const etrUsdtPoolId = '0x4e68ccd3e89f51c3074ca5072bbac773960dfa36';
     const etrUsdcPool = await api.getPoolByPoolId(etrUsdtPoolId);
     const pool = await api.getPoolByPoolId(poolId);
@@ -115,4 +185,4 @@ async function getEtrLiquidityInRangeforPoolId(poolId, min, max) {
 //
 // main()
 
-module.exports = {getEtrLiquidityInRangeforPoolId};
+module.exports = {getLiquidityInRangeforPoolId};
