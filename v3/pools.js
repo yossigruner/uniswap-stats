@@ -3,19 +3,14 @@ const json2xls = require('json2xls');
 const fs = require('fs');
 const helpers = require('../helpers.js');
 const consts = require('./consts.js');
+const liquidityInRange = require('./liquidityInRangeFromSdk.js')
 
 
-const _computePoolLiquidity = (pool) => {
-    if(!pool || !pool.mints) {
-        return 0.00000001;
-    }
+const _computePoolLiquidity = (pool, ethUsdtPool) => {
+   const liquidity = liquidityInRange.getAllPoolliquidity(pool).ethAmount;
+   const ethUsdRate = 1 / liquidityInRange.getPriceForTick(ethUsdtPool.currentTick);
 
-    let liquiditySum = 0;
-    pool.mints.forEach((mint) => {
-        liquiditySum += Number(mint.amountUSD);
-    });
-
-    return liquiditySum;
+   return liquidity * ethUsdRate;
 };
 
 const _getSinglePoolSwapData = async (poolId, poolNum=1, outOf=1, historical = false, timeInterval = null) => {
@@ -62,6 +57,7 @@ const getRelevantPools = async () => {
     console.log('[pools.getRelevantPools]-Getting all relevant pools');
     let skip = 0;
     let totalPairs = 0;
+    const etrUsdtPool= await api.getPoolByPoolId( '0x4e68ccd3e89f51c3074ca5072bbac773960dfa36' );
 
     // Step #1
     // filter muliplier
@@ -78,7 +74,7 @@ const getRelevantPools = async () => {
         }
 
         for (const pool of res) {
-            if (Number( pool.volumeUSD) > (consts.MULTIPLIER * (_computePoolLiquidity(pool)))) {
+            if (Number( pool.volumeUSD) > (consts.MULTIPLIER * (_computePoolLiquidity(pool, etrUsdtPool[0])))) {
                 filterResult.push(pool);
             }
         }

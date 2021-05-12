@@ -13,6 +13,7 @@ const NUMBEROFDAYS_HISTORICAL = 2;
 const DATE = Math.round(Date.now() / 1000 - (86400 * NUMBEROFDAYS));
 const DATE_HISTORICAL = Math.round(Date.now() / 1000 - (86400 * NUMBEROFDAYS_HISTORICAL));
 const FRAME_SIZE_FOR_SWAP_SCAN  = 1440 * 6; // one hour * 6
+const ETH_USDT_POOL_ID = '0x4e68ccd3e89f51c3074ca5072bbac773960dfa36';
 
 
 module.exports = {

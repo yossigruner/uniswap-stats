@@ -13,11 +13,19 @@ const JSBI = require('jsbi');
 // API - Get liquidity in range
 
 const poolId = '0x5116f278d095ec2ad3a14090fedb3e499b8b5af6';
-const minRange = 2200;
-const maxRange = 2300;
+const minRange = 1;
+const maxRange = 8000;
 
+// Using mints
+// const res2 = liquidityInRange.getLiquidityInRangeforPoolId(poolId, minRange, maxRange)
+//     .then((res) => {
+//         console.log(res);
+//         // const xls = json2xls(res);
+//         // fs.writeFileSync('./output/uniswap_pool_v3'+ Date() +'_.xlsx', xls, 'binary');
+//     });
 
-const res = liquidityInRange.getLiquidityInRangeforPoolId(poolId, minRange, maxRange)
+// Using ticks
+const res = liquidityInRange.getLiquidityInRangeFromTicks(poolId, minRange, maxRange)
     .then((res) => {
         console.log(res);
         // const xls = json2xls(res);

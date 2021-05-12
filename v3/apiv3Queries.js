@@ -71,6 +71,8 @@ const getPoolAllPools = async (volume, skip) => {
                     {volumeUSD_gt: ` + volume +`}){
                     id,
                     volumeUSD,
+                    sqrtPrice,
+                    tick,
                     token0 {
                       name,
                       symbol,
@@ -82,9 +84,10 @@ const getPoolAllPools = async (volume, skip) => {
                       id
                     }
                     ,ticks {
-                      tickIdx
-                      price0
-                      price1
+                      tickIdx,
+                      price0,
+                      price1,
+                      liquidityNet                  
                     },
                     mints{
                       amountUSD,
