@@ -2,13 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b525502-2fd5-4d19-8d2d-08cdc9fe6a27" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/v3/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/v3/liquidityCollector.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/v3/stats.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/uniswap_pool_v3Fri May 07 2021 01:57:34 GMT+0300 (Israel Daylight Time)_.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/uniswap_pool_v3Fri May 07 2021 01:59:13 GMT+0300 (Israel Daylight Time)_.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/uniswap_pool_v3Fri May 07 2021 23:38:53 GMT+0300 (Israel Daylight Time)_.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/uniswap_pool_v3Fri May 07 2021 23:42:28 GMT+0300 (Israel Daylight Time)_.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/uniswap_pool_v3Thu May 06 2021 00:28:19 GMT+0300 (Israel Daylight Time)_.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/uniswap_pool_v3Thu May 06 2021 00:38:11 GMT+0300 (Israel Daylight Time)_.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/uniswap_pool_v3Thu May 06 2021 00:50:21 GMT+0300 (Israel Daylight Time)_.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/uniswap_pool_v3Thu May 06 2021 00:50:45 GMT+0300 (Israel Daylight Time)_.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/uniswap_pools_data_Wed May 05 2021 22:59:51 GMT+0300 (Israel Daylight Time)_.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v3/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/v3/apiv3Queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/apiv3Queries.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/v3/consts.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/consts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/v3/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/v3/liquidityInRange.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/liquidityInRange.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/v3/pools.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/pools.js" afterDir="false" />
     </list>
@@ -24,38 +35,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/v3/api.js">
+        <entry file="file://$PROJECT_DIR$/v3/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" column="57" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="57" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="320" column="1" lean-forward="true" selection-start-line="320" selection-start-column="1" selection-end-line="320" selection-end-column="1" />
-              <folding>
-                <element signature="n#!!block;n#amount0#0" />
-                <element signature="n#!!block;n#amount1#0" />
-                <element signature="n#!!block;n#getIntersectingMints#0" />
-                <element signature="n#!!block;n#getLiquidityInRange#0" />
-                <element signature="e#3736#3744#0" />
-                <element signature="e#3780#3788#0" />
-                <element signature="e#3725#3796#0" />
-                <element signature="e#9902#9928#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/v3/pools.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
+            <state relative-caret-position="180">
+              <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -63,17 +46,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v3/consts.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="70" selection-start-line="15" selection-start-column="70" selection-end-line="15" selection-end-column="70" />
+            <state relative-caret-position="310">
+              <caret line="30" column="28" lean-forward="true" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/v3/pools.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="174">
+              <caret line="149" column="93" selection-start-line="149" selection-start-column="93" selection-end-line="149" selection-end-column="93" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/v3/index.js">
+        <entry file="file://$PROJECT_DIR$/v3/liquidityCollector.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="415">
+              <caret line="378" column="18" selection-start-line="378" selection-start-column="18" selection-end-line="378" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/v3/swaps.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="287">
+              <caret line="48" column="65" selection-start-line="48" selection-start-column="50" selection-end-line="48" selection-end-column="65" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="185">
+              <caret line="69" selection-start-line="69" selection-end-line="69" />
             </state>
           </provider>
         </entry>
@@ -81,8 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v3/apiv3Queries.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="74" column="25" selection-start-line="74" selection-start-column="25" selection-end-line="74" selection-end-column="25" />
+            <state relative-caret-position="311">
+              <caret line="178" column="8" selection-start-line="178" selection-start-column="8" selection-end-line="178" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -98,20 +108,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_getPercentageInRange</find>
-      <find>&lt;2</find>
-      <find>&lt; 2</find>
-      <find>i &lt;</find>
-      <find>i&lt;1</find>
-      <find>i&lt;2</find>
-      <find>i &lt; 2</find>
-      <find>makePairSt</find>
-      <find>_getMeanChange</find>
-      <find>getStatsForPair</find>
-      <find>getSwapData</find>
-      <find>getPoolsTable</find>
-      <find>makeShortPoolsListByTimeInterval</find>
-      <find>change</find>
       <find>//chan</find>
       <find>// chan</find>
       <find>limit</find>
@@ -128,6 +124,20 @@
       <find>pprin</find>
       <find>liqui</find>
       <find>pprint</find>
+      <find>toSignificant</find>
+      <find>toSigni</find>
+      <find>getAllPoolLiquidity</find>
+      <find>getLiquidityInRange</find>
+      <find>pools.ticks.sort</find>
+      <find>getLiquidityForMint</find>
+      <find>table</find>
+      <find>tabl</find>
+      <find>_comput</find>
+      <find>sort</find>
+      <find>pro</find>
+      <find>apply</find>
+      <find>computePoolLiquidityFromApi</find>
+      <find>ETH_SYM.includes</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -145,17 +155,20 @@
         <option value="$PROJECT_DIR$/node_modules/jsbi/package.json" />
         <option value="$PROJECT_DIR$/helpers.js" />
         <option value="$PROJECT_DIR$/v3/indexv3.js" />
-        <option value="$PROJECT_DIR$/v3/liquidityInRange.js" />
         <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/v3/apiv3.js" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/v3/try.js" />
-        <option value="$PROJECT_DIR$/v3/index.js" />
-        <option value="$PROJECT_DIR$/v3/consts.js" />
-        <option value="$PROJECT_DIR$/v3/pools.js" />
-        <option value="$PROJECT_DIR$/v3/apiv3Queries.js" />
         <option value="$PROJECT_DIR$/v3/api.js" />
         <option value="$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js" />
+        <option value="$PROJECT_DIR$/v3/liquidityInRange.js" />
+        <option value="$PROJECT_DIR$/v3/stats.js" />
+        <option value="$PROJECT_DIR$/v3/swaps.js" />
+        <option value="$PROJECT_DIR$/v3/apiv3Queries.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/v3/consts.js" />
+        <option value="$PROJECT_DIR$/v3/index.js" />
+        <option value="$PROJECT_DIR$/v3/liquidityCollector.js" />
+        <option value="$PROJECT_DIR$/v3/pools.js" />
       </list>
     </option>
   </component>
@@ -180,6 +193,11 @@
             <path>
               <item name="uniswap-stats" type="b2602c69:ProjectViewProjectNode" />
               <item name="uniswap-stats" type="462c0819:PsiDirectoryNode" />
+              <item name="output" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uniswap-stats" type="b2602c69:ProjectViewProjectNode" />
+              <item name="uniswap-stats" type="462c0819:PsiDirectoryNode" />
               <item name="v3" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -196,6 +214,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
@@ -216,7 +235,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Node.js.api">
+  <component name="RunManager" selected="Node.js.v3Index">
     <configuration name="api" type="NodeJSConfigurationType" path-to-js-file="v3/api.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
@@ -224,6 +243,9 @@
       <method v="2" />
     </configuration>
     <configuration name="index.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="index.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <configuration name="liquidityCollector" type="NodeJSConfigurationType" path-to-js-file="v3/liquidityCollector.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
     <configuration name="liquidityInRangeFromSdk.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="v3/liquidityInRangeFromSdk.js" working-dir="$PROJECT_DIR$">
@@ -249,6 +271,7 @@
       <item itemvalue="Node.js.liquidityInRange.js" />
       <item itemvalue="Node.js.api" />
       <item itemvalue="Node.js.v3Index" />
+      <item itemvalue="Node.js.liquidityCollector" />
       <item itemvalue="Node.js.try" />
       <item itemvalue="Node.js.liquidityInRangeFromSdk.js" />
       <item itemvalue="Node.js.pools.js" />
@@ -275,12 +298,12 @@
       <workItem from="1620538130430" duration="497000" />
       <workItem from="1620539497874" duration="887000" />
       <workItem from="1620660748018" duration="61000" />
-      <workItem from="1620660882754" duration="38982000" />
+      <workItem from="1620660882754" duration="84894000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="202833000" />
+    <option name="totallyTimeSpent" value="248745000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -293,10 +316,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="-240" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7107584" visible="true" weight="0.13902053" />
-      <window_info id="Structure" order="1" sideWeight="0.2892416" side_tool="true" visible="true" weight="0.13902053" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7107584" visible="true" weight="0.20115851" />
+      <window_info id="Structure" order="1" sideWeight="0.2892416" side_tool="true" visible="true" weight="0.20115851" />
       <window_info id="npm" order="2" sideWeight="0.2897959" side_tool="true" weight="0.13902053" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -400,11 +422,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/v3/liquidityInRange.js</url>
-          <line>134</line>
-          <option name="timeStamp" value="262" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/liquidityInRange.js</url>
           <line>67</line>
           <option name="timeStamp" value="267" />
         </line-breakpoint>
@@ -429,11 +446,6 @@
           <option name="timeStamp" value="299" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/pools.js</url>
-          <line>51</line>
-          <option name="timeStamp" value="304" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/v3/liquidityInRange.js</url>
           <line>56</line>
           <option name="timeStamp" value="306" />
@@ -445,159 +457,257 @@
           <option name="timeStamp" value="316" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js</url>
-          <line>339</line>
+          <url>file://$PROJECT_DIR$/index.js</url>
+          <line>700</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="338" />
+          <option name="timeStamp" value="388" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
+          <condition expression="pool[0].id === '0x11b815efb8f581194ae79006d24e0d814b7697f6'" language="JavaScript" />
           <url>file://$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js</url>
-          <line>141</line>
+          <line>226</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="358" />
+          <option name="timeStamp" value="413" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
+          <condition expression="pool[0].id === '0x11b815efb8f581194ae79006d24e0d814b7697f6'" language="JavaScript" />
           <url>file://$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js</url>
-          <line>150</line>
+          <line>223</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="359" />
+          <option name="timeStamp" value="414" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
+          <condition expression="pool.id === '0x11b815efb8f581194ae79006d24e0d814b7697f6'" language="JavaScript" />
           <url>file://$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js</url>
-          <line>136</line>
+          <line>297</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="360" />
+          <option name="timeStamp" value="415" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <condition expression="pool.id === '0x11b815efb8f581194ae79006d24e0d814b7697f6'" language="JavaScript" />
+          <url>file://$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js</url>
+          <line>293</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="416" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/apiv3Queries.js</url>
+          <line>133</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="420" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/apiv3Queries.js</url>
+          <line>132</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="421" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/apiv3Queries.js</url>
+          <line>178</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="461" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/index.js</url>
+          <line>53</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="483" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/index.js</url>
+          <line>52</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="484" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/v3/pools.js</url>
-          <line>9</line>
+          <line>35</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="366" />
+          <option name="timeStamp" value="485" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/liquidityCollector.js</url>
+          <line>369</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="497" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/liquidityCollector.js</url>
+          <line>346</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="499" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/v3/pools.js</url>
-          <line>90</line>
+          <line>159</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="370" />
+          <option name="timeStamp" value="502" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/v3/pools.js</url>
-          <line>76</line>
+          <line>223</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="375" />
+          <option name="timeStamp" value="503" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/v3/pools.js</url>
-          <line>63</line>
+          <line>149</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="377" />
+          <option name="timeStamp" value="504" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/v3/pools.js</url>
-          <line>12</line>
+          <line>153</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="378" />
+          <option name="timeStamp" value="505" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js</url>
-          <line>284</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="385" />
+          <url>file://$PROJECT_DIR$/v3/liquidityCollector.js</url>
+          <line>344</line>
+          <properties />
+          <option name="timeStamp" value="506" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js</url>
-          <line>307</line>
+          <condition expression="subPool.recommendedMaxPrice" language="JavaScript" />
+          <url>file://$PROJECT_DIR$/v3/pools.js</url>
+          <line>148</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="386" />
+          <option name="timeStamp" value="507" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/liquidityCollector.js</url>
+          <line>131</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="508" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/liquidityCollector.js</url>
+          <line>139</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="509" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/liquidityCollector.js</url>
+          <line>122</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="510" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/index.js</url>
+          <line>11</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="513" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="NodeJSConfigurationType">
-        <watch expression="resStringRoundDown[resStringRoundDown.length-1] = '0'" language="JavaScript" />
-        <watch expression="resStringRoundDown" language="JavaScript" />
-        <watch expression="res/10" language="JavaScript" />
-        <watch expression="Number((res.toFixed(0)/10).toFixed(0)*10)" language="JavaScript" />
-        <watch expression="JSBI.toNumber(liquidityList[1].liquidity)" language="JavaScript" />
+        <watch expression="p[0].id" language="JavaScript" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointCondition">
       <expression>
-        <expression-string>!pair</expression-string>
+        <expression-string>subPool.recommendedMaxPrice</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>'LABRA-WETH' === pool.name</expression-string>
+        <expression-string>!subPool.recommendedMinPrice</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>'LABRA' === pool.name</expression-string>
+        <expression-string>pool/id = '0x06729eb2424da47898f935267bd4a62940de5105'</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>'LABRA' ===</expression-string>
+        <expression-string>pool.id === '0x11b815efb8f581194ae79006d24e0d814b7697f6'</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>skip &gt; 0</expression-string>
+        <expression-string>pool[0].id === '0x11b815efb8f581194ae79006d24e0d814b7697f6'</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>pool.id === '</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>pool.id === ''</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>liquidityList === undefined || liquidityList.length === 0</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>pool.id === '0x000ea4a83acefdd62b1b43e9ccc281f442651520'</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>liquidityList[0].tickLower === undefined</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
     <expressions id="watch">
       <expression>
-        <expression-string>JSBI.toNumber(liquidityList[1].liquidity)</expression-string>
+        <expression-string>p[0].id</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>JSBI.toNumber(liquidityList[2].liquidity)</expression-string>
+        <expression-string>...res</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>Number((res.toFixed(0)/10).toFixed(0)*10)</expression-string>
+        <expression-string>Date.now()-startDate</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>Number(res.toFixed(0)/10)</expression-string>
+        <expression-string>startDate</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>Number((res.toFixed(0)/10) * 10)</expression-string>
+        <expression-string>Date.now()</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>Number(res.toFixed(0)/10) * 10)</expression-string>
+        <expression-string>JSBI.toNumber(tick.liquidity)</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>res/10</expression-string>
+        <expression-string>price * Math.pow(10,12)</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>resStringRoundDown</expression-string>
+        <expression-string>price * Math.pow(10,13)</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>resStringRoundDown[resStringRoundDown.length-1] = '0'</expression-string>
+        <expression-string>price * Math.pow(10,9)</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>p.transaction.timestamp</expression-string>
+        <expression-string>price.toFixed(4)</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -625,13 +735,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/timeseriesAnalysis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/draftQueries.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -649,13 +752,6 @@
     <entry file="file://$PROJECT_DIR$/node_modules/jsbi/jsbi.d.ts">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/axios/lib/core/createError.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/@uniswap/v3-sdk/dist/utils/tickMath.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="313">
@@ -670,20 +766,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/@uniswap/sdk-core/dist/entities/fractions/currencyAmount.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/helpers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/v3/try.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -695,20 +777,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="11" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="15" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/v3/liquidityInRange.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="59" column="34" lean-forward="true" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -737,13 +805,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/@uniswap/v3-sdk/dist/constants.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="34" lean-forward="true" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/@uniswap/v3-sdk/dist/utils/fullMath.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -751,69 +812,136 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/@uniswap/sdk-core/dist/entities/fractions/currencyAmount.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="84" column="4" selection-start-line="84" selection-start-column="4" selection-end-line="84" selection-end-column="145" />
+        <state relative-caret-position="15">
+          <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="27" column="57" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="57" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/jsbi/dist/jsbi-cjs.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="351" selection-start-column="351" selection-end-column="351" />
+          <caret column="790" selection-start-column="790" selection-end-column="790" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/consts.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/axios/lib/core/settle.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/axios/lib/core/createError.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
-          <caret line="15" column="70" selection-start-line="15" selection-start-column="70" selection-end-line="15" selection-end-column="70" />
+          <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/index.js">
+    <entry file="file://$PROJECT_DIR$/helpers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/apiv3Queries.js">
+    <entry file="file://$PROJECT_DIR$/timeseriesAnalysis.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="74" column="25" selection-start-line="74" selection-start-column="25" selection-end-line="74" selection-end-column="25" />
+        <state relative-caret-position="105">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/pools.js">
+    <entry file="file://$PROJECT_DIR$/v3/stats.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
+        <state relative-caret-position="340">
+          <caret line="42" column="4" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/api.js">
+    <entry file="file://$PROJECT_DIR$/v3/liquidityInRange.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="57" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="57" />
+        <state relative-caret-position="317">
+          <caret line="92" column="28" lean-forward="true" selection-start-line="92" selection-start-column="28" selection-end-line="92" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/swaps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="48" column="65" selection-start-line="48" selection-start-column="50" selection-end-line="48" selection-end-column="65" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="320" column="1" lean-forward="true" selection-start-line="320" selection-start-column="1" selection-end-line="320" selection-end-column="1" />
-          <folding>
-            <element signature="n#!!block;n#amount0#0" />
-            <element signature="n#!!block;n#amount1#0" />
-            <element signature="n#!!block;n#getIntersectingMints#0" />
-            <element signature="n#!!block;n#getLiquidityInRange#0" />
-            <element signature="e#3736#3744#0" />
-            <element signature="e#3780#3788#0" />
-            <element signature="e#3725#3796#0" />
-            <element signature="e#9902#9928#0" />
-          </folding>
+        <state relative-caret-position="185">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="567" column="20" selection-start-line="567" selection-start-column="20" selection-end-line="568" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@uniswap/v3-sdk/dist/constants.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="29" lean-forward="true" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/consts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="30" column="28" lean-forward="true" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/apiv3Queries.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="178" column="8" selection-start-line="178" selection-start-column="8" selection-end-line="178" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/liquidityCollector.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="378" column="18" selection-start-line="378" selection-start-column="18" selection-end-line="378" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/pools.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="149" column="93" selection-start-line="149" selection-start-column="93" selection-end-line="149" selection-end-column="93" />
         </state>
       </provider>
     </entry>

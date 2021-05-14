@@ -5,6 +5,7 @@ const ZERO = JSBI.BigInt(0);
 const api = require('./apiv3Queries.js');
 const helpers = require('../helpers.js');
 const { log } = require('mathjs');
+const consts = require('./consts.js')
 
 
 
@@ -89,7 +90,7 @@ function getLiquidityForMint(pool, mint) {
     const addressToken1 = pool.token1.id;
     const sqrtPrice = Number(pool.sqrtPrice);
     const currentTick  = Number(pool.tick);
-    const rate = 1/getPriceForTick(currentTick);
+    const rate = currentTick < 0 ? getPriceForTick(currentTick): 1 / getPriceForTick(currentTick);
 
     const tickLower = mint.tickLower;
     const tickUpper = mint.tickUpper;
@@ -101,8 +102,13 @@ function getLiquidityForMint(pool, mint) {
     const token1 = new Token(1, addressToken1, 18, pool.token1.symbol, pool.token1.name);
     const amount1Token1 = amount1(token1, currentTick, Number(Number(mint.tickLower).toFixed(0)), Number(Number(mint.tickUpper).toFixed(0)), JSBI.BigInt(mint.amount), JSBI.BigInt(sqrtPrice));
 
-    const t0 = Number(amount0Token0.toSignificant(4));
-    const t1 = Number(amount1Token1.toSignificant(4));
+    let t0 = Number(amount0Token0.toSignificant(4));
+    let t1 = Number(amount1Token1.toSignificant(4));
+
+    if(!consts.ETH_SYM.includes( amount0Token0.currency.Symbol ) )  {
+        t0 = Number(amount1Token1.toSignificant(4));
+        t1 = Number(amount0Token0.toSignificant(4));
+    }
 
     const ethAmount = Number(t0) + Number(t1) * rate;
 
@@ -172,8 +178,13 @@ function _getLiquidityForTick(pool, tick) {
     const token1 = new Token(1, addressToken1, 18, pool.token1.symbol, pool.token1.name);
     const amount1Token1 = amount1(token1, currentTick, Number(Number(tickLower).toFixed(0)), Number(Number(tickUpper).toFixed(0)), JSBI.BigInt(tick.liquidity), JSBI.BigInt(sqrtPrice));
 
-    const t0 = Number(amount0Token0.toSignificant(4));
-    const t1 = Number(amount1Token1.toSignificant(4));
+    let t0 = Number(amount0Token0.toSignificant(4));
+    let t1 = Number(amount1Token1.toSignificant(4));
+
+    if(consts.ETH_SYM.includes( amount0Token0.currency.Symbol ) )  {
+        t0 = Number(amount1Token1.toSignificant(4));
+        t1 = Number(amount0Token0.toSignificant(4));
+    }
 
     const ethAmount = Number(t0) + Number(t1) * rate;
 
@@ -238,15 +249,15 @@ function _getLiquidityList(pool) {
     const addressToken1 = pool.token1.id;
     const sqrtPrice = Number(pool.sqrtPrice);
     const currentTick  = Number(pool.tick);
-    const rate = 1/getPriceForTick(currentTick);
+    const rate = currentTick < 0 ? getPriceForTick(currentTick) : 1/getPriceForTick(currentTick);
     let liquidity = 0;
     let tickLower = 0;
     let tickUpper = 0;
-    pool.ticks = pool.ticks.sort((a,b) => (a.tickIdx < b.tickIdx) ? -1 : ((b.tickIdx > a.tickIdx) ? 1 : 0));
+    pool.ticks = pool.ticks.sort((a,b) => (Number(a.tickIdx) < Number(b.tickIdx) ) ? -1 : ((Number(b.tickIdx) > Number(a.tickIdx )) ? 1 : 0));
 
     for (let i = 0; i < pool.ticks.length - 1; i++) {
         if(i === 0) {
-            liquidity = JSBI.BigInt(Number(pool.ticks[0].liquidityNet));
+            liquidity = JSBI.BigInt(Number(pool.ticks[0].liquidityGross));
             tickLower = Number(pool.ticks[0].tickIdx);
             tickUpper = Number(pool.ticks[1].tickIdx);
         } else {
@@ -270,10 +281,25 @@ function _getLiquidityList(pool) {
     return liquidityList;
 }
 
-function getAllPoolliquidity(pool) {
+function getAllPoolLiquidity(pool) {
+
+    if(pool.ticks.length === 0) {
+        return {
+            t0: 0,
+            t1: 0,
+            inEth: 0,
+        };
+    }
+
     const liquidityList = _getLiquidityList(pool);
 
-    return _getLiquidityForAllRange(liquidityList, pool);
+    pool.ticks = pool.ticks.sort((a,b) => (Number(a.tickIdx) < Number(b.tickIdx) ) ? -1 : ((Number(b.tickIdx) > Number(a.tickIdx )) ? 1 : 0));
+
+    const liquidity = _getLiquidityForRange(liquidityList, getPriceForTick(liquidityList[0].tickLower), getPriceForTick(liquidityList[liquidityList.length-1].tickUpper), [pool]);
+
+    return getRelativeLiquidity(liquidity, getPriceForTick(liquidityList[0].tickLower), getPriceForTick(liquidityList[liquidityList.length-1].tickUpper));
+
+    // return _getLiquidityForAllRange(liquidityList, pool);
 }
 
 function getRelativeLiquidity(liquidity, minPrice, maxPrice) {
@@ -360,7 +386,7 @@ async function getLiquidityInRangeforPoolId(poolId, min, max) {
     const etrUsdcPool = await api.getPoolByPoolId(etrUsdtPoolId);
     const pool = await api.getPoolByPoolId(poolId);
 
-    return getLiquidityInRange(pool[0], min, max, etrUsdcPool[0]);
+    return getLiquidityInRange(pool[0], min, max);
 }
 
 // async function main() {
@@ -377,4 +403,4 @@ async function getLiquidityInRangeforPoolId(poolId, min, max) {
 //
 // main()
 
-module.exports = {getLiquidityInRangeforPoolId, getLiquidityInRangeFromTicks, getAllPoolliquidity, getPriceForTick};
+module.exports = {getLiquidityInRangeforPoolId, getLiquidityInRangeFromTicks, getAllPoolLiquidity, getPriceForTick, getLiquidityInRange};

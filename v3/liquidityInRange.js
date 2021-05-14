@@ -5,7 +5,7 @@ const helpers = require('../helpers.js')
 const JSBI = require('jsbi');
 
 
-const _getPriceForTickIdx = (tickIdx) => {
+const getPriceForTickIdx = (tickIdx) => {
     return Math.pow(1.0001, tickIdx);
 };
 
@@ -58,8 +58,8 @@ const getLiquidityForRange = (mints, minPrice, maxPrice) => {
         activeMints.push({
             tickIdxLower: Number(mints[i].tickLower),
             tickIdxUpper: Number(mints[i].tickUpper),
-            lowerBound: _getPriceForTickIdx(Number(mints[i].tickLower)),
-            upperBound: _getPriceForTickIdx(Number(mints[i].tickUpper)),
+            lowerBound: getPriceForTickIdx(Number(mints[i].tickLower)),
+            upperBound: getPriceForTickIdx(Number(mints[i].tickUpper)),
             amountUsd: Number(mints[i].amountUSD),
 
         });
@@ -95,7 +95,7 @@ const getLiquidityForRange = (mints, minPrice, maxPrice) => {
 //         fs.writeFileSync('./output/uniswap_pool_v3'+ Date() +'_.xlsx', xls, 'binary');
 //     });
 
-module.exports = {getLiquidityInRange};
+module.exports = {getLiquidityInRange, getPriceForTickIdx};
 
 
 

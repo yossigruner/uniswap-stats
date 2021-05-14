@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const URI = 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-alt';
+const URI = 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph';
 
 const getPoolByPoolId = async (poolId) => {
     console.log('[helpers._getLiquiditiesForPair]-Calling for poolId - ' + poolId );
@@ -16,7 +16,17 @@ const getPoolByPoolId = async (poolId) => {
                 liquidity,
                 feeTier,
                 sqrtPrice,
+                totalValueLockedToken0,
+                totalValueLockedToken1,
                 tick,
+                poolDayData {
+                  id,
+                  tvlUSD,
+                  volumeToken0,
+                  volumeToken1,
+                  volumeUSD,
+                  date,
+                },
                 ticks {
                   id,
                   price0,
@@ -64,8 +74,9 @@ const getPoolByPoolId = async (poolId) => {
 
 const getPoolAllPools = async (volume, skip) => {
     console.log('[apiv3.getPoolAllPools]-Calling fall pools with skip - ' + skip);
-    const pool = await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph', {
-        query: `
+    try {
+        const pool = await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph', {
+            query: `
                 {
                   pools(first: 1000, skip: ` + skip +`, where: 
                     {volumeUSD_gt: ` + volume +`}){
@@ -73,6 +84,17 @@ const getPoolAllPools = async (volume, skip) => {
                     volumeUSD,
                     sqrtPrice,
                     tick,
+                    feeTier,
+                    totalValueLockedToken0,
+                    totalValueLockedToken1,
+                    poolDayData {
+                      id,
+                      tvlUSD,
+                      volumeToken0,
+                      volumeToken1,
+                      volumeUSD,
+                      date,
+                    },
                     token0 {
                       name,
                       symbol,
@@ -87,29 +109,37 @@ const getPoolAllPools = async (volume, skip) => {
                       tickIdx,
                       price0,
                       price1,
-                      liquidityNet                  
+                      liquidityNet,
+                      liquidityGross                
                     },
                     mints{
+                      amount,
                       amountUSD,
                       tickLower,
                       tickUpper
+                  
                     }
                   }
                 }
 
         `
-    });
+        });
 
-    if (!pool.data.data  | !pool.data.data.pools) {
-        return null;
+        if (!pool.data.data  | !pool.data.data.pools) {
+            return null;
+        }
+
+        return pool.data.data.pools;
+    } catch (e) {
+        console.log(e);
     }
 
-    return pool.data.data.pools;
 };
 
 const querySwapData = async (skip, pairAddress, timestamp_high, timestamp_low) => {
-    return await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph', {
-        query: `
+    try {
+        return await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph', {
+            query: `
             {
                     
                        swaps(first: 1000, skip: ` + skip + `, 
@@ -122,7 +152,8 @@ const querySwapData = async (skip, pairAddress, timestamp_high, timestamp_low) =
                         id
                         timestamp
                       }
-                      id
+                      id,
+                      tick
 
                     token0 {
                       id,
@@ -143,7 +174,11 @@ const querySwapData = async (skip, pairAddress, timestamp_high, timestamp_low) =
                 }
             
         `
-    })
+        })
+    } catch (e) {
+        console.log(e);
+    }
+
 };
 
 module.exports = {getPoolByPoolId, getPoolAllPools, querySwapData};
