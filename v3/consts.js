@@ -18,6 +18,7 @@ const ETH_SYM = ['WETH', 'ETH'];
 const FEE_MULTIPLIER = Math.pow(10, -6);
 const NUM_OF_CONCURRENT_POOLS = 80;
 const LIQUIDITY_ZERO = 0.000000001;
+const MAX_STD_FOR_SPREAD = 25;
 
 
 module.exports = {
@@ -37,4 +38,5 @@ module.exports = {
     FEE_MULTIPLIER,
     NUM_OF_CONCURRENT_POOLS,
     LIQUIDITY_ZERO,
+    MAX_STD_FOR_SPREAD,
 };

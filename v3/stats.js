@@ -9,7 +9,7 @@ const makePairStatsPerTimeInterval = (pair) => {
     let stdCounter = 1;
 
     let timeInRange = helpers.getPercentageInRange(pairRates, lastRate - std, lastRate + std);
-    while (timeInRange < consts.TIME_IN_RANGE_TRESHOLD) {
+    while (timeInRange < consts.TIME_IN_RANGE_TRESHOLD && stdCounter < consts.MAX_STD_FOR_SPREAD) {
         stdCounter += 1;
         timeInRange = helpers.getPercentageInRange(pairRates, lastRate - stdCounter * std, lastRate + stdCounter * std);
     }

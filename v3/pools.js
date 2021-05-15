@@ -3,10 +3,11 @@ const json2xls = require('json2xls');
 const fs = require('fs');
 const helpers = require('../helpers.js');
 const consts = require('./consts.js');
-const liquidityInRange = require('./liquidityInRangeFromSdk.js');
+const liquidityInRangeFile = require('./liquidityInRangeFromSdk.js');
 const swaps = require('./swaps.js');
 const stats = require('./stats.js');
 const liquidityCollector = require('./liquidityCollector.js');
+const v3helpers = require('./helpers.js');
 
 
 const _computePoolLiquidity = (pool, ethUsdtPool) => {
@@ -22,8 +23,8 @@ const _computePoolLiquidity = (pool, ethUsdtPool) => {
 
     pool.ticks = pool.ticks.sort((a,b) => (Number(a.tickIdx) < Number(b.tickIdx) ) ? -1 : ((Number(b.tickIdx) > Number(a.tickIdx )) ? 1 : 0));
 
-    const liquidity = liquidityInRange.getLiquidityInRange(pool, liquidityInRange.getPriceForTick(pool.ticks[0].tickIdx), liquidityInRange.getPriceForTick(pool.ticks[pool.ticks.length-1].tickIdx)).ethAmount;
-    const price = liquidityInRange.getPriceForTick(ethUsdtPool.tick) * Math.pow(10, 12);
+    const liquidity = liquidityInRangeFile.getLiquidityInRange(pool, liquidityInRangeFile.getPriceForTick(pool.ticks[0].tickIdx), liquidityInRangeFile.getPriceForTick(pool.ticks[pool.ticks.length-1].tickIdx)).ethAmount;
+    const price = liquidityInRangeFile.getPriceForTick(ethUsdtPool.tick) * Math.pow(10, 12);
     const ethUsdRate = price;
     pool.ethUsdRate = ethUsdRate;
 
@@ -31,7 +32,7 @@ const _computePoolLiquidity = (pool, ethUsdtPool) => {
 };
 
 const getPoolLiquidityInRange = (pool, minPrice, maxPrice) => {
-    const liquidity = liquidityInRange.getLiquidityInRange(pool, minPrice, maxPrice).ethAmount;
+    const liquidity = liquidityInRangeFile.getLiquidityInRange(pool, minPrice, maxPrice).ethAmount;
 
     return liquidity * pool.ethUsdRate;
 };
@@ -47,24 +48,7 @@ const _computeDailyVolume = (dayData) => {
     return Number( dayData[dayData.length-1].volumeUSD );
 };
 
-const computePoolLiquidityFromApi = (pool, ethUsdtPool) => {
-    const price = pool.tick > 0 ? 1 / liquidityInRange.getPriceForTick(pool.tick)  : liquidityInRange.getPriceForTick(pool.tick);
-    const ethUsdRate = ethUsdtPool.tick < 0 ? liquidityInRange.getPriceForTick(ethUsdtPool.tick) * Math.pow(10, 12) : liquidityInRange.getPriceForTick(ethUsdtPool.tick) ;
 
-    let t0Amount = pool.totalValueLockedToken0;
-    let t1Amount = pool.totalValueLockedToken1;
-
-    if(!consts.ETH_SYM.includes( pool.token0.symbol ) )  {
-        t0Amount = pool.totalValueLockedToken1;
-        t1Amount = pool.totalValueLockedToken0;
-    }
-
-    pool.ethUsdRate = ethUsdRate;
-    pool.liquidity = ( Number(t0Amount) + Number(t1Amount) * price ) * ethUsdRate;
-
-    return pool.liquidity;
-
-};
 
 const getRelevantPools = async () => {
     console.log('[pools.getRelevantPools]-Getting all relevant pools');
@@ -88,7 +72,7 @@ const getRelevantPools = async () => {
 
         for (const pool of res) {
             // const liquidity = _computePoolLiquidity(pool, etrUsdtPool[0]);
-            const liquidity = computePoolLiquidityFromApi(pool, etrUsdtPool[0]);
+            const liquidity = v3helpers.computePoolLiquidityFromApi(pool, etrUsdtPool[0]);
             pool.volumeUsd = _computeDailyVolume(pool.poolDayData);
 
             if (Number( pool.volumeUSD) > (consts.MULTIPLIER * (liquidity) )) {
@@ -126,13 +110,18 @@ const makeShortPoolsListByTimeInterval= async (pool, pairsStats, swaps, ethUsdtP
     _pool.dailyVolume = Number(pool.volumeUSD);
     const volumeInDailyRange = Number(helpers.getVolumeInTime(swaps[1]));
     const volumeDailyTimeRange = volumeInDailyRange * 1 / pairsStats[1].timeInRange;
-    const lastRate = liquidityInRange.getPriceForTick(pool.tick);
+    const lastRate = liquidityInRangeFile.getPriceForTick(pool.tick);
     _pool.liquidity = pool.liquidity;
 
     Object.keys(pairsStats).forEach(async (timeInterval) => {
         const volumeInRange = Number(helpers.getVolumeInTime(swaps[timeInterval]));
         const subPool = {
+            tick: pool.tick,
             timeInterval,
+            token0: pool.token0,
+            token1: pool.token1,
+            totalValueLockedToken0: pool.totalValueLockedToken0,
+            totalValueLockedToken1: pool.totalValueLockedToken1,
             stdMultiplier: pairsStats[timeInterval].stdMultiplier ? pairsStats[timeInterval].stdMultiplier : 0,
             recommendedMinPrice: pairsStats[timeInterval].stdMinPrice ? pairsStats[timeInterval].stdMinPrice : 0,
             recommendedMaxPrice: pairsStats[timeInterval].stdMaxPrice ? pairsStats[timeInterval].stdMaxPrice : 0,
@@ -146,16 +135,16 @@ const makeShortPoolsListByTimeInterval= async (pool, pairsStats, swaps, ethUsdtP
         };
         const meanChange = await _getMeanChange(swaps[timeInterval]);
         subPool.meanChange = meanChange ? meanChange : 0;
-        if (subPool.recommendedMinPrice && subPool.recommendedMaxPrice) {
-            subPool.liquidityInRange = await liquidityCollector.getLiquidityInRangeInUSD(pool,subPool.recommendedMinPrice,subPool.recommendedMaxPrice, ethUsdtPool);
-        } else {
-            subPool.liquidityInRange = consts.LIQUIDITY_ZERO;
-        }
-        const estimatedRevenue = subPool.fee * ( pool.volumeUsd /subPool.liquidityInRange );
+        // if (subPool.recommendedMinPrice && subPool.recommendedMaxPrice) {
+        //     subPool.liquidityInRange = await liquidityCollector.getLiquidityInRangeInUSD(pool,subPool.recommendedMinPrice,subPool.recommendedMaxPrice, ethUsdtPool);
+        // } else {
+        //     subPool.liquidityInRange = consts.LIQUIDITY_ZERO;
+        // }
+        // const estimatedRevenue = subPool.fee * ( pool.volumeUsd /subPool.liquidityInRange );
         const cross = helpers.getCrossBorderAmounts(subPool.recommendedMinPrice, subPool.recommendedMaxPrice, swaps[timeInterval]);
         subPool.crossRangeUpAmount = cross.maxCross;
         subPool.crossRangeDownAmount = cross.minCross;
-        subPool.estimatedRevenue = estimatedRevenue;
+        // subPool.estimatedRevenue = estimatedRevenue;
 
         _pool[timeInterval] = (subPool.recommendedMaxPrice === undefined) ? {} : subPool;
     });
@@ -163,9 +152,10 @@ const makeShortPoolsListByTimeInterval= async (pool, pairsStats, swaps, ethUsdtP
     return await _pool;
 };
 
-const flattenPool = async(pool) => {
+const flattenPool = async(pool, ethUsdtPool) => {
     const res = [];
-    consts.TIME_INTERVALS_IN_DAYS.forEach((time) => {
+    consts.TIME_INTERVALS_IN_DAYS.forEach(async( time) => {
+        try {
             const obj = {};
             obj.id = pool.id;
             obj.dailyVolume = pool.dailyVolume;
@@ -176,54 +166,53 @@ const flattenPool = async(pool) => {
             });
 
             res.push(obj);
+        } catch (e) {
+            console.log(e);
+        }
+
     });
 
-    return res;
-};
-
-const poolsPrettyPrint = async (data) => {
-    console.log();
-    const res = [];
-
-
-    consts.TIME_INTERVALS_IN_DAYS.forEach((time) => {
-        Object.keys(data).forEach( (d) => {
-            const obj = {};
-            obj.address = data[d].address;
-            obj.dailyVolume = data[d].dailyVolume;
-            obj.liquidityV2 = data[d].liquidity;
-            obj.name = data[d].name;
-            Object.keys(data[d][time]).forEach((k)=>{
-                obj[k] = data[d][time][k];
-            });
-
-            res.push(obj);
-        });
-    });
-
-    if(LIQUIDITY_V3 === true) {
         const forLoop = async _ => {
-            for (let i = 0; i < res.length; i++) {
-                res[i].liquidityInRecommendedRange = await helpers.getLiquiditySumForPoolAndRange(res[i].address, res[i].recommendedMinPrice, res[i].recommendedMaxPrice, res[i].name);
-                res[i].estimatedRevenue = res[i].fee * ( res[i].volumeDailyTimeRange / res[i].liquidityInRecommendedRange );
-                res[i].estimatedRevenueV2 = res[i].fee * ( res[i].volumeDailyTimeRange / res[i].liquidityV2 );
+        for (let i = 0; i < res.length; i++) {
+            if (res[i].recommendedMinPrice && res[i].recommendedMaxPrice) {
+                try{
+                    res[i].liquidityInRange = await liquidityCollector.getLiquidityInRangeInUSD(res[i],res[i].recommendedMinPrice,res[i].recommendedMaxPrice, ethUsdtPool);
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            } else {
+                res[i].liquidityInRange = consts.LIQUIDITY_ZERO;
             }
+
+            res[i].estimatedRevenue = res[i].fee * ( res[i].dailyVolume /res[i].liquidityInRange );
+            delete(res[i].token0);
+            delete(res[i].token1);
+            }
+
         };
+
         await forLoop();
-    }
 
-    return await res.sort((a,b) => (a.estimatedRevenue < b.estimatedRevenue) ? 1 : ((b.estimatedRevenue > a.estimatedRevenue) ? -1 : 0));
+
+
+    return await res;
 };
-
 
 
 const proccessOnePool = async(pool, ethUsdtPool) => {
-    const poolSwapData = await swaps.getSwapDataByTimeInterval(pool);
-    const stts = stats.makePairStats(poolSwapData);
-    const lst = await makeShortPoolsListByTimeInterval(pool, stts, poolSwapData, ethUsdtPool);
-    const flatten = await flattenPool(lst);
 
-    return flatten;
+        const poolSwapData = await swaps.getSwapDataByTimeInterval(pool);
+        const stts = stats.makePairStats(poolSwapData);
+        const lst = await makeShortPoolsListByTimeInterval(pool, stts, poolSwapData, ethUsdtPool);
+    try {
+        const flatten = await flattenPool(lst, ethUsdtPool);
+
+        return flatten;
+    } catch (e) {
+        console.log('Pool with id => ' + pool.id + ' failed ' + e)
+    }
+
 };
 
 //
@@ -241,6 +230,6 @@ const proccessOnePool = async(pool, ethUsdtPool) => {
 //     });
 
 
-module.exports = {getRelevantPools, proccessOnePool, computePoolLiquidityFromApi};
+module.exports = {getRelevantPools, proccessOnePool};
 
 
