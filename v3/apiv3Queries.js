@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const URI = 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph';
+const URI = 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-testing';
 
 const getPoolByPoolId = async (poolId) => {
     console.log('[helpers._getLiquiditiesForPair]-Calling for poolId - ' + poolId );
@@ -78,8 +78,7 @@ const getPoolAllPools = async (volume, skip) => {
         const pool = await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph', {
             query: `
                 {
-                  pools(first: 1000, skip: ` + skip +`, where: 
-                    {volumeUSD_gt: ` + volume +`}){
+                  pools(first: 1000, skip: ` + skip +`){
                     id,
                     volumeUSD,
                     sqrtPrice,

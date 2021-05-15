@@ -341,7 +341,7 @@ async function formattedData(poolTickData) {
 }
 
 async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
-    const tickDensityData = await fetchTicksFormattedDataFromPool(pool.id)
+    let tickDensityData = await fetchTicksFormattedDataFromPool(pool.id);
 
     let sumActiveLiquidity = 0;
     tickDensityData.map(tick => sumActiveLiquidity += tick.activeLiquidity);
@@ -375,6 +375,7 @@ async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
         maxIndexFound = false;
         let minPriceIndex = 0;
         let maxPriceIndex = 0;
+        tickDensityData = tickDensityData.reverse();
         while(!(minIndexFound && maxIndexFound) && minPriceIndex < tickDensityData.length-1) {
             if(!(tickDensityData[minPriceIndex].price1 <= minPrice && tickDensityData[minPriceIndex + 1].price1 >= minPrice)) {
                 minPriceIndex++;

@@ -8,6 +8,8 @@ const swaps = require('./swaps.js');
 const stats = require('./stats.js');
 const liquidityCollector = require('./liquidityCollector.js');
 const v3helpers = require('./helpers.js');
+const log = require('debug-level').log('test');
+
 
 
 const _computePoolLiquidity = (pool, ethUsdtPool) => {
@@ -51,7 +53,7 @@ const _computeDailyVolume = (dayData) => {
 
 
 const getRelevantPools = async () => {
-    console.log('[pools.getRelevantPools]-Getting all relevant pools');
+    log.debug('[pools.getRelevantPools]-Getting all relevant pools');
     let skip = 0;
     let totalPairs = 0;
     const etrUsdtPool= await api.getPoolByPoolId( consts.ETH_USDT_POOL_ID );
@@ -62,7 +64,7 @@ const getRelevantPools = async () => {
     let moreResults = true;
     while (moreResults) {
         // get pairs
-        console.log("calling with skip = " + skip);
+        log.debug("calling with skip = " + skip);
         const res = await api.getPoolAllPools(consts.MIN_DAILY_VOLUME_USD, skip);
 
         if (res != null) {
@@ -73,20 +75,20 @@ const getRelevantPools = async () => {
         for (const pool of res) {
             // const liquidity = _computePoolLiquidity(pool, etrUsdtPool[0]);
             const liquidity = v3helpers.computePoolLiquidityFromApi(pool, etrUsdtPool[0]);
-            pool.volumeUsd = _computeDailyVolume(pool.poolDayData);
+            // pool.volumeUsd = _computeDailyVolume(pool.poolDayData);
 
-            if (Number( pool.volumeUSD) > (consts.MULTIPLIER * (liquidity) )) {
-                pool.liquidity = liquidity;
-                filterResult.push(pool);
-            }
+            // if (Number( pool.volumeUSD ) > (consts.MULTIPLIER * (liquidity) )) {
+            pool.liquidity = liquidity;
+            filterResult.push(pool);
+            // }
         }
 
         if (res == null || res.length < 1000) {
             moreResults = false;
         }
 
-        console.log("[pools.getRelevantPools]-Found total of pairs: " + totalPairs);
-        console.log("[pools.getRelevantPools]-Found total of suitable pairs: " + filterResult.length);
+        log.info("[pools.getRelevantPools]-Found total of pairs: " + totalPairs);
+        log.info("[pools.getRelevantPools]-Found total of suitable pairs: " + filterResult.length);
 
     }
 
@@ -167,50 +169,56 @@ const flattenPool = async(pool, ethUsdtPool) => {
 
             res.push(obj);
         } catch (e) {
-            console.log(e);
+            log.warn(e);
         }
 
     });
-
+        log.debug('Flatten - pool id (id) - ' + pool.id);
         const forLoop = async _ => {
         for (let i = 0; i < res.length; i++) {
             if (res[i].recommendedMinPrice && res[i].recommendedMaxPrice) {
-                try{
+                try {
                     res[i].liquidityInRange = await liquidityCollector.getLiquidityInRangeInUSD(res[i],res[i].recommendedMinPrice,res[i].recommendedMaxPrice, ethUsdtPool);
                 }
                 catch (e) {
-                    console.log(e);
+                    log.warn(e);
                 }
             } else {
                 res[i].liquidityInRange = consts.LIQUIDITY_ZERO;
             }
 
-            res[i].estimatedRevenue = res[i].fee * ( res[i].dailyVolume /res[i].liquidityInRange );
+            res[i].estimatedRevenue = res[i].fee * ( res[i].volumeDailyTimeRange /res[i].liquidityInRange );
             delete(res[i].token0);
             delete(res[i].token1);
+            delete(res[i].totalValueLockedToken0)
+            delete(res[i].totalValueLockedToken1);
+            delete(res[i].tick);
+            delete(res[i].dailyVolume);
+
             }
 
         };
 
+
         await forLoop();
 
-
+    log.debug('Flatten - finish  pool id (id) - ' + pool.id);
 
     return await res;
 };
 
 
 const proccessOnePool = async(pool, ethUsdtPool) => {
-
         const poolSwapData = await swaps.getSwapDataByTimeInterval(pool);
         const stts = stats.makePairStats(poolSwapData);
         const lst = await makeShortPoolsListByTimeInterval(pool, stts, poolSwapData, ethUsdtPool);
+
     try {
         const flatten = await flattenPool(lst, ethUsdtPool);
 
         return flatten;
     } catch (e) {
-        console.log('Pool with id => ' + pool.id + ' failed ' + e)
+        log.warn('Pool with id => ' + pool.id + ' failed ' + e)
     }
 
 };
