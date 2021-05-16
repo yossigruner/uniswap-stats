@@ -39,16 +39,6 @@ const getPoolLiquidityInRange = (pool, minPrice, maxPrice) => {
     return liquidity * pool.ethUsdRate;
 };
 
-const _computeDailyVolume = (dayData) => {
-
-    if(!dayData || dayData.length === 0) {
-        return 0;
-    }
-
-    dayData = dayData.sort((a,b) => (a.date > b.date) ? 1 : ((b.date < a.date) ? -1 : 0));
-
-    return Number( dayData[dayData.length-1].volumeUSD );
-};
 
 
 
@@ -73,14 +63,16 @@ const getRelevantPools = async () => {
         }
 
         for (const pool of res) {
-            // const liquidity = _computePoolLiquidity(pool, etrUsdtPool[0]);
-            const liquidity = v3helpers.computePoolLiquidityFromApi(pool, etrUsdtPool[0]);
-            // pool.volumeUsd = _computeDailyVolume(pool.poolDayData);
+            // const liquidity1 = v3helpers.computePoolLiquidityFromApi(pool, etrUsdtPool[0]);
+            const liquidity = v3helpers.computePoolLiquidityFromApiDayData(pool.poolDayData);
+            pool.volumeUSD = v3helpers.computeDailyVolume(pool.poolDayData);
 
-            // if (Number( pool.volumeUSD ) > (consts.MULTIPLIER * (liquidity) )) {
+            if (Number (pool.volumeUSD) >= consts.MIN_DAILY_VOLUME_USD &&
+                Number(liquidity) >= consts.MIN_DAILY_LIQUIDITY_USD  &&
+                Number( pool.volumeUSD ) > (consts.MULTIPLIER * (liquidity) )) {
             pool.liquidity = liquidity;
             filterResult.push(pool);
-            // }
+            }
         }
 
         if (res == null || res.length < 1000) {

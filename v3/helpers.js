@@ -14,10 +14,31 @@ const computePoolLiquidityFromApi = (pool, ethUsdtPool) => {
     }
 
     pool.ethUsdRate = ethUsdRate;
-    pool.liquidity = ( Number(t0Amount) + Number(t1Amount) * price ) * ethUsdRate;
+    // pool.liquidity = ( Number(t0Amount) + Number(t1Amount) * price ) * ethUsdRate;
 
-    return pool.liquidity;
+    return ( Number(t0Amount) + Number(t1Amount) * price ) * ethUsdRate;
 
 };
 
-module.exports = {computePoolLiquidityFromApi};
+const computePoolLiquidityFromApiDayData = (dayData) => {
+    if(!dayData || dayData.length === 0) {
+        return 0;
+    }
+
+    dayData = dayData.sort((a,b) => (a.date > b.date) ? 1 : ((b.date < a.date) ? -1 : 0));
+
+    return Number( dayData[dayData.length-1].tvlUSD );
+};
+
+const computeDailyVolume = (dayData) => {
+
+    if(!dayData || dayData.length === 0) {
+        return 0;
+    }
+
+    dayData = dayData.sort((a,b) => (a.date > b.date) ? 1 : ((b.date < a.date) ? -1 : 0));
+
+    return Number( dayData[dayData.length-1].volumeUSD );
+};
+
+module.exports = {computePoolLiquidityFromApi, computeDailyVolume, computePoolLiquidityFromApiDayData};

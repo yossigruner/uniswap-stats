@@ -5,6 +5,7 @@ const json2xls = require('json2xls');
 const fs = require('fs');
 const api = require('./apiv3Queries.js');
 const log = require('debug-level').log('test');
+const liquidityInRange = require('./liquidityInRangeFromSdk.js');
 
 
 
@@ -13,6 +14,7 @@ async function main() {
     const ethUsdtPool = await api.getPoolByPoolId(consts.ETH_USDT_POOL_ID);
     // const pool = await api.getPoolByPoolId('0x5116f278d095ec2ad3a14090fedb3e499b8b5af6');
     // const t = await liquidityCollector.getLiquidityInRangeInUSD(pool[0],2297,3359, ethUsdtPool[0]);
+    // const t2 = liquidityInRange.getPriceForTick(pool[0], 10760);
 
 
 
@@ -22,6 +24,7 @@ async function main() {
     let jobs = [];
     let result = [];
     while (indexProcessed < relevantPools.length && amountProcessed <= consts.NUM_OF_CONCURRENT_POOLS) {
+
         indexProcessed += 1;
         amountProcessed+= 1;
         jobs.push(relevantPools[indexProcessed]);

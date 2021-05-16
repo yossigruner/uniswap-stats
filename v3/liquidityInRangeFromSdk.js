@@ -5,7 +5,8 @@ const ZERO = JSBI.BigInt(0);
 const api = require('./apiv3Queries.js');
 const helpers = require('../helpers.js');
 const { log } = require('mathjs');
-const consts = require('./consts.js')
+const consts = require('./consts.js');
+
 
 
 
@@ -70,6 +71,21 @@ const _getTickForPrice = (n, base = 1.0001) => {
 
 };
 const getPriceForTick = (n) => (Math.pow(1.0001, n));
+
+// const getPriceForTick = (pool, tick) => {
+//     const tickPrice = uniswapsdk.tickToPrice(pool.token0, pool.token1, tick);
+//
+//     return tickPrice.toFixed(4);
+
+
+    // const rate = Math.pow(1.0001, tick);
+    //
+    // if (tick < 0) {
+    //     return 1/rate;
+    // }
+    //
+    // return rate;
+// };
 
 function getIntersectingMints(pool, minPrice, maxPrice) {
     const tickLower = Number(_getTickForPrice(minPrice));

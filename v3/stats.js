@@ -1,6 +1,7 @@
 const simple = require('simple-statistics');
 const helpers = require('../helpers.js');
-const consts = require('./consts.js')
+const consts = require('./consts.js');
+const log = require('debug-level').log('test');
 
 const makePairStatsPerTimeInterval = (pair) => {
     const pairRates = pair.map(p => p.rate);

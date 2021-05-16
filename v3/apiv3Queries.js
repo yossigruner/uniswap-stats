@@ -47,12 +47,44 @@ const getPoolByPoolId = async (poolId) => {
                 token0 {
                   id,
                   name,
-                  symbol
+                  symbol,
+                  decimals,
+                  totalSupply,
+                  volume,
+                  volumeUSD,
+                  untrackedVolumeUSD,
+                  txCount,
+                  poolCount,
+                  totalValueLocked,
+                  totalValueLockedUSD,
+                  derivedETH,
+                  whitelistPools {
+                    id
+                  },
+                  tokenDayData {
+                    id
+                  }
                 },
                 token1 {
                   id,
                   name,
-                  symbol
+                  symbol,
+                  decimals,
+                  totalSupply,
+                  volume,
+                  volumeUSD,
+                  untrackedVolumeUSD,
+                  txCount,
+                  poolCount,
+                  totalValueLocked,
+                  totalValueLockedUSD,
+                  derivedETH,
+                  whitelistPools {
+                    id
+                  },
+                  tokenDayData {
+                    id
+                  }
                 },
                 ticks {
                   id,
@@ -95,14 +127,46 @@ const getPoolAllPools = async (volume, skip) => {
                       date,
                     },
                     token0 {
+                      id,
                       name,
                       symbol,
-                      id
+                      decimals,
+                      totalSupply,
+                      volume,
+                      volumeUSD,
+                      untrackedVolumeUSD,
+                      txCount,
+                      poolCount,
+                      totalValueLocked,
+                      totalValueLockedUSD,
+                      derivedETH,
+                      whitelistPools {
+                        id
+                      },
+                      tokenDayData {
+                        id
+                      }
                     }
                     token1{
+                      id,
                       name,
                       symbol,
-                      id
+                      decimals,
+                      totalSupply,
+                      volume,
+                      volumeUSD,
+                      untrackedVolumeUSD,
+                      txCount,
+                      poolCount,
+                      totalValueLocked,
+                      totalValueLockedUSD,
+                      derivedETH,
+                      whitelistPools {
+                        id
+                      },
+                      tokenDayData {
+                        id
+                      }
                     }
                     ,ticks {
                       tickIdx,

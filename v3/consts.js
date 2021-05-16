@@ -16,7 +16,7 @@ const FRAME_SIZE_FOR_SWAP_SCAN  = 3600 * 6; // one hour * 6
 const ETH_USDT_POOL_ID = '0x4e68ccd3e89f51c3074ca5072bbac773960dfa36';
 const ETH_SYM = ['WETH', 'ETH'];
 const FEE_MULTIPLIER = Math.pow(10, -6);
-const NUM_OF_CONCURRENT_POOLS = 50;
+const NUM_OF_CONCURRENT_POOLS = 5;
 const LIQUIDITY_ZERO = 0.000000001;
 const MAX_STD_FOR_SPREAD = 25;
 
