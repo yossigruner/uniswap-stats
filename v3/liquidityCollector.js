@@ -15,6 +15,7 @@ const api = require('./apiv3Queries.js');
 const pools = require('./pools.js');
 const consts = require('./consts.js');
 const v3helpers = require('./helpers.js');
+const log = require('debug-level').log('test');
 
 
 const FEE_TIER_TO_TICK_SPACING = (feeTier) => {
@@ -101,6 +102,7 @@ const fetchInitializedTicks = async (
 
 async function fetchTicksSurroundingPrice(poolAddress,
                                           numSurroundingTicks) {
+    log.debug('[liquidityCollector.fetchTicksSurroundingPrice] - Creating query');
     const poolQuery = gql`
       query pool($poolAddress: String!) {
         pool(id: $poolAddress) {
@@ -121,14 +123,16 @@ async function fetchTicksSurroundingPrice(poolAddress,
         }
       }
     `
+    log.debug('[liquidityCollector.fetchTicksSurroundingPrice] - (query) => ' + JSON.stringify(poolQuery));
     const { data: poolResult, error, loading } = await client.query({
         query: poolQuery,
         variables: {
             poolAddress,
         },
     })
-
+    log.debug('[liquidityCollector.fetchTicksSurroundingPrice] - (Result) => ' + JSON.stringify(poolResult));
     if (loading || error || !poolResult) {
+        log.warn('[liquidityCollector.fetchTicksSurroundingPrice] - Error in get pool (err) => ' + JSON.stringify(error));
         return {
             loading,
             error: Boolean(error),
@@ -346,7 +350,7 @@ async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
     let sumActiveLiquidity = 0;
     tickDensityData.map(tick => sumActiveLiquidity += tick.activeLiquidity);
 
-    const unitPrice = v3helpers.computePoolLiquidityFromApi(pool,ethUsdtPool)/sumActiveLiquidity;
+    const unitPrice = sumActiveLiquidity ? v3helpers.computePoolLiquidityFromApi(pool,ethUsdtPool)/sumActiveLiquidity : 0;
 
     let sumRelevantLiquidity = 0;
     let minPriceIndex = 0;
@@ -360,12 +364,16 @@ async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
         } else {
             minIndexFound = true;
         }
-        if(!(tickDensityData[maxPriceIndex].price0 <= maxPrice && tickDensityData[maxPriceIndex + 1].price0 >= maxPrice)) {
+        if(!(tickDensityData[maxPriceIndex].price0 <= maxPrice && tickDensityData[maxPriceIndex + 1].price0 > maxPrice)) {
             maxPriceIndex++;
             if (minIndexFound) {
-                sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
+                    sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
             }
         } else {
+            while (tickDensityData[maxPriceIndex].price0 <= minPrice &&  tickDensityData[maxPriceIndex + 1].price0 >= minPrice) {
+                sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
+                maxPriceIndex++;
+            }
             maxIndexFound = true;
         }
     }
@@ -382,14 +390,29 @@ async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
             } else {
                 minIndexFound = true;
             }
-            if(!(tickDensityData[maxPriceIndex].price1 <= maxPrice && tickDensityData[maxPriceIndex + 1].price1 >= maxPrice)) {
+            if(!(tickDensityData[maxPriceIndex].price1 <= maxPrice && tickDensityData[maxPriceIndex + 1].price1 > maxPrice)) {
                 maxPriceIndex++;
                 if (minIndexFound) {
                     sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
                 }
             } else {
+                while (tickDensityData[maxPriceIndex].price0 <= minPrice &&  tickDensityData[maxPriceIndex + 1].price0 >= minPrice) {
+                    sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
+                    maxPriceIndex++;
+                }
                 maxIndexFound = true;
             }
+        }
+    }
+
+    // Case uniform distribution of liquidity
+    // first case - there is liquidity
+    // second case there is no liquidity
+    if (!sumRelevantLiquidity) {
+        if (sumActiveLiquidity) {
+            return sumActiveLiquidity * unitPrice;
+        } else {
+            return 0;
         }
     }
 
@@ -399,13 +422,18 @@ async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
 
 async function fetchTicksFormattedDataFromPool(poolAddress) {
     let result = {};
-    const poolTickData = await fetchTicksSurroundingPrice(poolAddress, DEFAULT_SURROUNDING_TICKS)
-        .then(async (poolTickData) => {
-            const formattedDatResult = await formattedData(poolTickData.data)
-                .then(async (res) => {
-                    result = res;
-                });
-        });
+    try {
+        const poolTickData = await fetchTicksSurroundingPrice(poolAddress, DEFAULT_SURROUNDING_TICKS)
+            .then(async (poolTickData) => {
+                const formattedDatResult = await formattedData(poolTickData.data)
+                    .then(async (res) => {
+                        result = res;
+                    });
+            });
+    } catch (e) {
+        log.warn(e);
+    }
+
 
 
     return await result;

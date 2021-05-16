@@ -14,7 +14,7 @@ async function main() {
     const ethUsdtPool = await api.getPoolByPoolId(consts.ETH_USDT_POOL_ID);
     // const pool = await api.getPoolByPoolId('0x5116f278d095ec2ad3a14090fedb3e499b8b5af6');
     // const t = await liquidityCollector.getLiquidityInRangeInUSD(pool[0],2297,3359, ethUsdtPool[0]);
-    // const t2 = liquidityInRange.getPriceForTick(pool[0], 10760);
+    // const t2 = liquidityInRange.getPriceForTick(pool[0], Number(-1*Number(pool[0].tick)));
 
 
 
@@ -24,17 +24,20 @@ async function main() {
     let jobs = [];
     let result = [];
     while (indexProcessed < relevantPools.length && amountProcessed <= consts.NUM_OF_CONCURRENT_POOLS) {
-
-        indexProcessed += 1;
-        amountProcessed+= 1;
         jobs.push(relevantPools[indexProcessed]);
-        if (amountProcessed === consts.NUM_OF_CONCURRENT_POOLS) {
+        if (amountProcessed === consts.NUM_OF_CONCURRENT_POOLS || indexProcessed === relevantPools.length-1) {
             const res = await getNumPools(jobs,amountProcessed, ethUsdtPool[0]);
             log.info('Amount processed (pool number, out of) => ( ' + indexProcessed + ',' + relevantPools.length + ')');
             result = result.concat([].concat.apply([], res));
             amountProcessed = 0;
             jobs = [];
+            indexProcessed += 1;
+        } else {
+            indexProcessed += 1;
+            amountProcessed += 1;
         }
+
+
     }
     log.info('Amount processed (pool number, out of) => ( ' + indexProcessed + ',' + relevantPools.length + ')');
 
@@ -54,7 +57,7 @@ async function main() {
 async function getNumPools(poolJobs, num, ethUsdtPool) {
     const res = [];
     const promises = [];
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i <= num; i++) {
         promises.push(pools.proccessOnePool(poolJobs[i], ethUsdtPool));
     }
 

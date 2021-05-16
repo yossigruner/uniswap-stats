@@ -46,7 +46,7 @@ const getRelevantPools = async () => {
     log.debug('[pools.getRelevantPools]-Getting all relevant pools');
     let skip = 0;
     let totalPairs = 0;
-    const etrUsdtPool= await api.getPoolByPoolId( consts.ETH_USDT_POOL_ID );
+    const ethUsdtPool= await api.getPoolByPoolId( consts.ETH_USDT_POOL_ID );
 
     // Step #1
     // filter muliplier
@@ -63,16 +63,19 @@ const getRelevantPools = async () => {
         }
 
         for (const pool of res) {
-            // const liquidity1 = v3helpers.computePoolLiquidityFromApi(pool, etrUsdtPool[0]);
-            const liquidity = v3helpers.computePoolLiquidityFromApiDayData(pool.poolDayData);
-            pool.volumeUSD = v3helpers.computeDailyVolume(pool.poolDayData);
+            const liquidity = v3helpers.computePoolLiquidityFromApi(pool, ethUsdtPool[0]);
+            // const liquidity = v3helpers.computePoolLiquidityFromApiDayData(pool.poolDayData);
+            // pool.volumeUSD = v3helpers.computeDailyVolume(pool.poolDayData);
 
-            if (Number (pool.volumeUSD) >= consts.MIN_DAILY_VOLUME_USD &&
-                Number(liquidity) >= consts.MIN_DAILY_LIQUIDITY_USD  &&
-                Number( pool.volumeUSD ) > (consts.MULTIPLIER * (liquidity) )) {
+           /* if (Number (pool.volumeUSD) >= consts.MIN_DAILY_VOLUME_USD &&
+                // Number(liquidity) >= consts.MIN_DAILY_LIQUIDITY_USD  &&
+                Number( pool.volumeUSD ) > (consts.MULTIPLIER * (liquidity) )) */
             pool.liquidity = liquidity;
-            filterResult.push(pool);
-            }
+            // if(pool.id === '0x2f62f2b4c5fcd7570a709dec05d68ea19c82a9ec') {
+            //     filterResult.push(pool);
+            // }
+                filterResult.push(pool);
+
         }
 
         if (res == null || res.length < 1000) {
@@ -104,7 +107,9 @@ const makeShortPoolsListByTimeInterval= async (pool, pairsStats, swaps, ethUsdtP
     _pool.dailyVolume = Number(pool.volumeUSD);
     const volumeInDailyRange = Number(helpers.getVolumeInTime(swaps[1]));
     const volumeDailyTimeRange = volumeInDailyRange * 1 / pairsStats[1].timeInRange;
-    const lastRate = liquidityInRangeFile.getPriceForTick(pool.tick);
+    // const lastRate = liquidityInRangeFile.getPriceForTick(pool.tick);
+    // TODO check priceForTick
+    const lastRate = liquidityInRangeFile.getPriceForTick(pool, pool.tick);
     _pool.liquidity = pool.liquidity;
 
     Object.keys(pairsStats).forEach(async (timeInterval) => {
@@ -171,18 +176,21 @@ const flattenPool = async(pool, ethUsdtPool) => {
             if (res[i].recommendedMinPrice && res[i].recommendedMaxPrice) {
                 try {
                     res[i].liquidityInRange = await liquidityCollector.getLiquidityInRangeInUSD(res[i],res[i].recommendedMinPrice,res[i].recommendedMaxPrice, ethUsdtPool);
+                    res[i].estimatedRevenue = res[i].liquidityInRange ? res[i].fee * ( res[i].volumeDailyTimeRange /res[i].liquidityInRange) : consts.MAX_REVENUE;
+                    res[i].estimatedRevenueForTimeInterval = res[i].liquidityInRange ? res[i].fee * ( res[i].volumeInRange /res[i].liquidityInRange) : consts.MAX_REVENUE;
                 }
                 catch (e) {
                     log.warn(e);
                 }
             } else {
                 res[i].liquidityInRange = consts.LIQUIDITY_ZERO;
+                res[i].estimatedRevenue = res[i].fee * ( res[i].volumeDailyTimeRange /res[i].liquidityInRange );
             }
 
-            res[i].estimatedRevenue = res[i].fee * ( res[i].volumeDailyTimeRange /res[i].liquidityInRange );
+
             delete(res[i].token0);
             delete(res[i].token1);
-            delete(res[i].totalValueLockedToken0)
+            delete(res[i].totalValueLockedToken0);
             delete(res[i].totalValueLockedToken1);
             delete(res[i].tick);
             delete(res[i].dailyVolume);
@@ -201,12 +209,14 @@ const flattenPool = async(pool, ethUsdtPool) => {
 
 
 const proccessOnePool = async(pool, ethUsdtPool) => {
+        log.debug('[pools.proccessOnePool] - Pool started (poolId) => ' + pool.id );
         const poolSwapData = await swaps.getSwapDataByTimeInterval(pool);
         const stts = stats.makePairStats(poolSwapData);
         const lst = await makeShortPoolsListByTimeInterval(pool, stts, poolSwapData, ethUsdtPool);
 
     try {
         const flatten = await flattenPool(lst, ethUsdtPool);
+        log.info('[pools.proccessOnePool] - Pool Finished (poolId) => ' + pool.id );
 
         return flatten;
     } catch (e) {
