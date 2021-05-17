@@ -6,6 +6,7 @@ const fs = require('fs');
 const api = require('./apiv3Queries.js');
 const log = require('debug-level').log('test');
 const liquidityInRange = require('./liquidityInRangeFromSdk.js');
+const v3helpers = require('./helpers.js');
 
 
 
@@ -39,12 +40,15 @@ async function main() {
 
 
     }
-    log.info('Amount processed (pool number, out of) => ( ' + indexProcessed + ',' + relevantPools.length + ')');
+    log.debug('Amount processed (pool number, out of) => ( ' + indexProcessed + ',' + relevantPools.length + ')');
 
     const filterdResult = [];
     for (let i = 0; i < result.length; i++ ) {
-        if (result[i].volumeDailyTimeRange >= consts.MIN_DAILY_VOLUME_USD && result[i].liquidity >= consts.MIN_DAILY_LIQUIDITY_USD) {
-            filterdResult.push(result[i]);
+        if (result[i].volumeDailyTimeRange >= consts.MIN_DAILY_VOLUME_USD &&
+            result[i].liquidity >= consts.MIN_DAILY_LIQUIDITY_USD &&
+            result[i].liquidityInRange != consts.LIQUIDITY_ZERO &&
+            result[i].volumeDailyTimeRange) {
+            filterdResult.push(v3helpers.addCommas( result[i]) );
         }
     }
 

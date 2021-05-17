@@ -1,9 +1,9 @@
 
-const MIN_DAILY_VOLUME_USD = 1000000;
-const MIN_DAILY_LIQUIDITY_USD = 300000;
+const MIN_DAILY_VOLUME_USD = 500000;
+const MIN_DAILY_LIQUIDITY_USD = 100000;
 const LIQUIDITY_V3 = true;
 
-const MULTIPLIER = 0.1;
+const MULTIPLIER = 0.01;
 
 const TIME_INTERVALS_IN_DAYS = [1, 4/24, 2/24, 1/24 ];
 const DATES = TIME_INTERVALS_IN_DAYS.map(x=> Math.round(Date.now() / 1000 - (86400 * x)));
@@ -20,6 +20,7 @@ const NUM_OF_CONCURRENT_POOLS = 100;
 const LIQUIDITY_ZERO = 0.000000001;
 const MAX_STD_FOR_SPREAD = 25;
 const MAX_REVENUE = 999;
+const NUMERICAL_FIELDS = ['dailyVolume', 'liquidity', 'liquidityInRange', 'recommendedMinPrice', 'recommendedMaxPrice']
 
 
 module.exports = {
@@ -41,4 +42,5 @@ module.exports = {
     LIQUIDITY_ZERO,
     MAX_STD_FOR_SPREAD,
     MAX_REVENUE,
+    NUMERICAL_FIELDS,
 };

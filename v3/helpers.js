@@ -1,6 +1,14 @@
 const liquidityInRangeFile = require('./liquidityInRangeFromSdk.js');
 const consts = require('./consts.js');
 
+const numberWithCommas = (num) => {
+    if (num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    return num;
+};
+
 const computePoolLiquidityFromApi = (pool, ethUsdtPool) => {
     // const price = pool.tick > 0 ? 1 / liquidityInRangeFile.getPriceForTick(pool.tick)  : liquidityInRangeFile.getPriceForTick(pool.tick);
     const ethUsdRate = liquidityInRangeFile.getPriceForTick(ethUsdtPool, ethUsdtPool.tick);
@@ -26,8 +34,8 @@ const computePoolLiquidityFromApi = (pool, ethUsdtPool) => {
     //     const price = liquidityInRangeFile.getPriceForTick(pool, pool.tick);
     // }
 
-    return Number(pool.totalValueLockedToken0) * Number(pool.token0.derivedETH) *
-        Number(pool.totalValueLockedToken1) * Number(pool.token1.derivedETH) *
+    return (Number(pool.totalValueLockedToken0) * Number(pool.token0.derivedETH) +
+        Number(pool.totalValueLockedToken1) * Number(pool.token1.derivedETH) ) *
         Number(ethUsdRate);
 
 
@@ -54,4 +62,12 @@ const computeDailyVolume = (dayData) => {
     return Number( dayData[dayData.length-1].volumeUSD );
 };
 
-module.exports = {computePoolLiquidityFromApi, computeDailyVolume, computePoolLiquidityFromApiDayData};
+const addCommas = (pool) => {
+    consts.NUMERICAL_FIELDS.forEach((field) => {
+        pool[field] = numberWithCommas(pool[field]);
+    });
+
+    return pool;
+};
+
+module.exports = {computePoolLiquidityFromApi, computeDailyVolume, computePoolLiquidityFromApiDayData, numberWithCommas, addCommas};

@@ -9,6 +9,7 @@ const stats = require('./stats.js');
 const liquidityCollector = require('./liquidityCollector.js');
 const v3helpers = require('./helpers.js');
 const log = require('debug-level').log('test');
+const _ = require('lodash-contrib');
 
 
 
@@ -161,7 +162,7 @@ const flattenPool = async(pool, ethUsdtPool) => {
             obj.liquidity = pool.liquidity;
             obj.name = pool.name;
             Object.keys(pool[time]).forEach((k)=>{
-                obj[k] = pool[time][k];
+                obj[k] =  pool[time][k];
             });
 
             res.push(obj);
@@ -216,7 +217,7 @@ const proccessOnePool = async(pool, ethUsdtPool) => {
 
     try {
         const flatten = await flattenPool(lst, ethUsdtPool);
-        log.info('[pools.proccessOnePool] - Pool Finished (poolId) => ' + pool.id );
+        log.debug('[pools.proccessOnePool] - Pool Finished (poolId) => ' + pool.id );
 
         return flatten;
     } catch (e) {
