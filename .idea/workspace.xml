@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5b525502-2fd5-4d19-8d2d-08cdc9fe6a27" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pump_alerts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pump_alerts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v3/consts.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/consts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v3/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/helpers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v3/liquidityCollector.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/liquidityCollector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/v3/stats.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/stats.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/uniswap_pools_data_Fri May 21 2021 23:00:09 GMT+0300 (Israel Daylight Time)_.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/v3/pools.js" beforeDir="false" afterPath="$PROJECT_DIR$/v3/pools.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -47,11 +44,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/v3/pools.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1545">
-              <caret line="103" column="6" selection-start-line="103" selection-start-column="6" selection-end-line="103" selection-end-column="6" />
+            <state relative-caret-position="125">
+              <caret line="196" selection-start-line="196" selection-end-line="196" />
             </state>
           </provider>
         </entry>
@@ -65,7 +62,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/v3/liquidityCollector.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="186">
@@ -94,7 +91,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>pprint</find>
       <find>toSignificant</find>
       <find>toSigni</find>
       <find>getAllPoolLiquidity</find>
@@ -124,6 +120,7 @@
       <find>pro</find>
       <find>list</find>
       <find>comm</find>
+      <find>dailyVolume</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -149,7 +146,6 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/v3/swaps.js" />
         <option value="$PROJECT_DIR$/v3/liquidityInRangeFromSdk.js" />
-        <option value="$PROJECT_DIR$/v3/pools.js" />
         <option value="$PROJECT_DIR$/v3/index.js" />
         <option value="$PROJECT_DIR$/v3/apiv3Queries.js" />
         <option value="$PROJECT_DIR$/v3/stats.js" />
@@ -158,6 +154,7 @@
         <option value="$PROJECT_DIR$/v3/helpers.js" />
         <option value="$PROJECT_DIR$/v3/consts.js" />
         <option value="$PROJECT_DIR$/v3/liquidityCollector.js" />
+        <option value="$PROJECT_DIR$/v3/pools.js" />
       </list>
     </option>
   </component>
@@ -299,12 +296,12 @@
       <workItem from="1620539497874" duration="887000" />
       <workItem from="1620660748018" duration="61000" />
       <workItem from="1620660882754" duration="138974000" />
-      <workItem from="1621514813719" duration="9410000" />
+      <workItem from="1621514813719" duration="10331000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="312235000" />
+    <option name="totallyTimeSpent" value="313156000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -558,6 +555,19 @@
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="584" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <condition expression="pool.dailyVolume != 0" language="JavaScript" />
+          <url>file://$PROJECT_DIR$/v3/pools.js</url>
+          <line>160</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="590" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/v3/pools.js</url>
+          <line>167</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="591" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
@@ -570,6 +580,16 @@
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>pool.dailyVolume != 0</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>_pool.dailyVolume != 0</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>res[i].timeInterval == 1 &amp;&amp; res[i].estimatedRevenue != res[i].estimatedRevenueForTimeInterval</expression-string>
         <language-id>JavaScript</language-id>
@@ -607,11 +627,6 @@
       </expression>
       <expression>
         <expression-string>pairByTimeIntervals[k].length &gt; 1000</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>pairByTimeIntervals[k.length] &gt; 1000</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -904,13 +919,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/v3/pools.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1545">
-          <caret line="103" column="6" selection-start-line="103" selection-start-column="6" selection-end-line="103" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/helpers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -950,6 +958,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
           <caret line="385" column="30" lean-forward="true" selection-start-line="385" selection-start-column="30" selection-end-line="385" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/v3/pools.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="196" selection-start-line="196" selection-end-line="196" />
         </state>
       </provider>
     </entry>

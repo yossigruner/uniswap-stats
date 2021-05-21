@@ -105,8 +105,8 @@ const makeShortPoolsListByTimeInterval= async (pool, pairsStats, swaps, ethUsdtP
     const _pool = {};
     _pool.id = pool.id;
     _pool.name = pool.token0.symbol+'-'+pool.token1.symbol;
-    _pool.dailyVolume = Number(pool.volumeUSD);
     const volumeInDailyRange = Number(helpers.getVolumeInTime(swaps[1]));
+    _pool.dailyVolume = volumeInDailyRange;
     const volumeDailyTimeRange = volumeInDailyRange * 1 / pairsStats[1].timeInRange;
     // const lastRate = liquidityInRangeFile.getPriceForTick(pool.tick);
     // TODO check priceForTick
@@ -194,7 +194,6 @@ const flattenPool = async(pool, ethUsdtPool) => {
             delete(res[i].totalValueLockedToken0);
             delete(res[i].totalValueLockedToken1);
             delete(res[i].tick);
-            delete(res[i].dailyVolume);
 
             }
 
