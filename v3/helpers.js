@@ -1,12 +1,23 @@
 const liquidityInRangeFile = require('./liquidityInRangeFromSdk.js');
 const consts = require('./consts.js');
 
-const numberWithCommas = (num) => {
+const numberWithCommas2 = (num) => {
     if (num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
     return num;
+};
+const numberWithCommas = (num) => {
+    if (num) {
+        const parts = num.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
+    }
+
+    return num;
+
+
 };
 
 const computePoolLiquidityFromApi = (pool, ethUsdtPool) => {
@@ -69,5 +80,7 @@ const addCommas = (pool) => {
 
     return pool;
 };
+
+
 
 module.exports = {computePoolLiquidityFromApi, computeDailyVolume, computePoolLiquidityFromApiDayData, numberWithCommas, addCommas};

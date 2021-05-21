@@ -12,7 +12,6 @@ const fetch = require('cross-fetch/polyfill').fetch;
 const createHttpLink = require('apollo-link-http').createHttpLink;
 const InMemoryCache = require('apollo-cache-inmemory').InMemoryCache;
 const api = require('./apiv3Queries.js');
-const pools = require('./pools.js');
 const consts = require('./consts.js');
 const v3helpers = require('./helpers.js');
 const log = require('debug-level').log('test');
@@ -364,13 +363,15 @@ async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
         } else {
             minIndexFound = true;
         }
-        if(!(tickDensityData[maxPriceIndex].price0 <= maxPrice && tickDensityData[maxPriceIndex + 1].price0 > maxPrice)) {
+        if(tickDensityData[maxPriceIndex] &&tickDensityData[maxPriceIndex + 1] &&
+            !(tickDensityData[maxPriceIndex].price0 <= maxPrice && tickDensityData[maxPriceIndex + 1].price0 > maxPrice)) {
             maxPriceIndex++;
             if (minIndexFound) {
                     sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
             }
         } else {
-            while (tickDensityData[maxPriceIndex].price0 <= minPrice &&  tickDensityData[maxPriceIndex + 1].price0 >= minPrice) {
+            while (tickDensityData[maxPriceIndex] && tickDensityData[maxPriceIndex + 1] &&
+            tickDensityData[maxPriceIndex].price0 <= minPrice &&  tickDensityData[maxPriceIndex + 1].price0 >= minPrice) {
                 sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
                 maxPriceIndex++;
             }
@@ -390,13 +391,15 @@ async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
             } else {
                 minIndexFound = true;
             }
-            if(!(tickDensityData[maxPriceIndex].price1 <= maxPrice && tickDensityData[maxPriceIndex + 1].price1 > maxPrice)) {
+            if(tickDensityData[maxPriceIndex] && tickDensityData[maxPriceIndex + 1] &&
+                !(tickDensityData[maxPriceIndex].price1 <= maxPrice && tickDensityData[maxPriceIndex + 1].price1 > maxPrice)) {
                 maxPriceIndex++;
                 if (minIndexFound) {
                     sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
                 }
             } else {
-                while (tickDensityData[maxPriceIndex].price0 <= minPrice &&  tickDensityData[maxPriceIndex + 1].price0 >= minPrice) {
+                while (tickDensityData[maxPriceIndex] && tickDensityData[maxPriceIndex + 1] &&
+                tickDensityData[maxPriceIndex].price0 <= minPrice &&  tickDensityData[maxPriceIndex + 1].price0 >= minPrice) {
                     sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
                     maxPriceIndex++;
                 }

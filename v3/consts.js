@@ -20,7 +20,9 @@ const NUM_OF_CONCURRENT_POOLS = 100;
 const LIQUIDITY_ZERO = 0.000000001;
 const MAX_STD_FOR_SPREAD = 25;
 const MAX_REVENUE = 999;
-const NUMERICAL_FIELDS = ['dailyVolume', 'liquidity', 'liquidityInRange', 'recommendedMinPrice', 'recommendedMaxPrice']
+const NUMERICAL_FIELDS = ['dailyVolume', 'liquidity', 'liquidityInRange', 'recommendedMinPrice', 'recommendedMaxPrice', 'volumeInRange', 'volumeDailyTimeRange'];
+const PUMP_TIME_DELTA = 2;
+const PUMP_DATE = Date.now() / 1000 - 3600 * PUMP_TIME_DELTA;
 
 
 module.exports = {
@@ -43,4 +45,5 @@ module.exports = {
     MAX_STD_FOR_SPREAD,
     MAX_REVENUE,
     NUMERICAL_FIELDS,
+    PUMP_DATE,
 };

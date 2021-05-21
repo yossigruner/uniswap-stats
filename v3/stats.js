@@ -20,8 +20,8 @@ const makePairStatsPerTimeInterval = (pair) => {
         lastRate,
         periodMax: simple.max(pairRates),
         periodMin: simple.min(pairRates),
-        stdMinPrice: lastRate - stdCounter * std,
-        stdMaxPrice: lastRate + stdCounter * std,
+        stdMinPrice: (lastRate - stdCounter * std).toFixed(18),
+        stdMaxPrice: (lastRate + stdCounter * std).toFixed(18),
         timeInRange,
         stdMultiplier: stdCounter,
     };
