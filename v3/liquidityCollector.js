@@ -33,7 +33,7 @@ const FEE_TIER_TO_TICK_SPACING = (feeTier) => {
 
 var client = new ApolloClient({
     link: createHttpLink({
-        uri: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-testing',
+        uri: consts.URI_ALT,
         fetch: fetch
     }),
     queryDeduplication: false,
@@ -363,7 +363,7 @@ async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
         } else {
             minIndexFound = true;
         }
-        if(tickDensityData[maxPriceIndex] &&tickDensityData[maxPriceIndex + 1] &&
+        if(tickDensityData[maxPriceIndex] && tickDensityData[maxPriceIndex + 1] &&
             !(tickDensityData[maxPriceIndex].price0 <= maxPrice && tickDensityData[maxPriceIndex + 1].price0 > maxPrice)) {
             maxPriceIndex++;
             if (minIndexFound) {
@@ -427,12 +427,7 @@ async function fetchTicksFormattedDataFromPool(poolAddress) {
     let result = {};
     try {
         const poolTickData = await fetchTicksSurroundingPrice(poolAddress, DEFAULT_SURROUNDING_TICKS)
-            .then(async (poolTickData) => {
-                const formattedDatResult = await formattedData(poolTickData.data)
-                    .then(async (res) => {
-                        result = res;
-                    });
-            });
+        result = await formattedData(poolTickData.data);
     } catch (e) {
         log.warn(e);
     }

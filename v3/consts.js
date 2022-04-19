@@ -23,7 +23,8 @@ const MAX_REVENUE = 999;
 const NUMERICAL_FIELDS = ['dailyVolume', 'liquidity', 'liquidityInRange', 'recommendedMinPrice', 'recommendedMaxPrice', 'volumeInRange', 'volumeDailyTimeRange'];
 const PUMP_TIME_DELTA = 2;
 const PUMP_DATE = Date.now() / 1000 - 3600 * PUMP_TIME_DELTA;
-
+const URI_TESTING = 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-testing';
+const URI_ALT = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3';
 
 module.exports = {
     MIN_DAILY_VOLUME_USD,
@@ -46,4 +47,5 @@ module.exports = {
     MAX_REVENUE,
     NUMERICAL_FIELDS,
     PUMP_DATE,
+    URI_ALT
 };
