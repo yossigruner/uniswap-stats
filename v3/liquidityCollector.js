@@ -25,6 +25,8 @@ const FEE_TIER_TO_TICK_SPACING = (feeTier) => {
             return 60
         case '500':
             return 10
+        case '100':
+            return 2
         default:
             throw Error(`Tick spacing for fee tier ${feeTier} undefined.`)
     }
@@ -344,58 +346,37 @@ async function formattedData(poolTickData) {
 }
 
 async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
-    let tickDensityData = await fetchTicksFormattedDataFromPool(pool.id);
+    try {
+        let tickDensityData = await fetchTicksFormattedDataFromPool(pool.id);
 
-    let sumActiveLiquidity = 0;
-    tickDensityData.map(tick => sumActiveLiquidity += tick.activeLiquidity);
-
-    const unitPrice = sumActiveLiquidity ? v3helpers.computePoolLiquidityFromApi(pool,ethUsdtPool)/sumActiveLiquidity : 0;
-
-    let sumRelevantLiquidity = 0;
-    let minPriceIndex = 0;
-    let maxPriceIndex = 0;
-    let minIndexFound = false;
-    let maxIndexFound = false;
-    while(!(minIndexFound && maxIndexFound) && minPriceIndex < tickDensityData.length-1) {
-        // console.log(minPriceIndex +'----' + maxPriceIndex);
-        if(!(tickDensityData[minPriceIndex].price0 <= minPrice && tickDensityData[minPriceIndex + 1].price0 >= minPrice)) {
-            minPriceIndex++;
-        } else {
-            minIndexFound = true;
+        let sumActiveLiquidity = 0;
+        try {
+            tickDensityData.map(tick => sumActiveLiquidity += tick.activeLiquidity);
+        } catch (e) {
+            console.log(e)
+            console.log(tickDensityData)
         }
-        if(tickDensityData[maxPriceIndex] && tickDensityData[maxPriceIndex + 1] &&
-            !(tickDensityData[maxPriceIndex].price0 <= maxPrice && tickDensityData[maxPriceIndex + 1].price0 > maxPrice)) {
-            maxPriceIndex++;
-            if (minIndexFound) {
-                    sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
-            }
-        } else {
-            while (tickDensityData[maxPriceIndex] && tickDensityData[maxPriceIndex + 1] &&
-            tickDensityData[maxPriceIndex].price0 <= minPrice &&  tickDensityData[maxPriceIndex + 1].price0 >= minPrice) {
-                sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
-                maxPriceIndex++;
-            }
-            maxIndexFound = true;
-        }
-    }
 
-    if(!(minIndexFound && maxIndexFound)) {
-        minIndexFound = false;
-        maxIndexFound = false;
+
+        const unitPrice = sumActiveLiquidity ? v3helpers.computePoolLiquidityFromApi(pool,ethUsdtPool)/sumActiveLiquidity : 0;
+
+        let sumRelevantLiquidity = 0;
         let minPriceIndex = 0;
         let maxPriceIndex = 0;
-        tickDensityData = tickDensityData.reverse();
+        let minIndexFound = false;
+        let maxIndexFound = false;
         while(!(minIndexFound && maxIndexFound) && minPriceIndex < tickDensityData.length-1) {
-            if(!(tickDensityData[minPriceIndex].price1 <= minPrice && tickDensityData[minPriceIndex + 1].price1 >= minPrice)) {
+            // console.log(minPriceIndex +'----' + maxPriceIndex);
+            if(!(tickDensityData[minPriceIndex].price0 <= minPrice && tickDensityData[minPriceIndex + 1].price0 >= minPrice)) {
                 minPriceIndex++;
             } else {
                 minIndexFound = true;
             }
             if(tickDensityData[maxPriceIndex] && tickDensityData[maxPriceIndex + 1] &&
-                !(tickDensityData[maxPriceIndex].price1 <= maxPrice && tickDensityData[maxPriceIndex + 1].price1 > maxPrice)) {
+                !(tickDensityData[maxPriceIndex].price0 <= maxPrice && tickDensityData[maxPriceIndex + 1].price0 > maxPrice)) {
                 maxPriceIndex++;
                 if (minIndexFound) {
-                    sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
+                        sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
                 }
             } else {
                 while (tickDensityData[maxPriceIndex] && tickDensityData[maxPriceIndex + 1] &&
@@ -406,21 +387,54 @@ async function getLiquidityInRangeInUSD(pool, minPrice, maxPrice, ethUsdtPool) {
                 maxIndexFound = true;
             }
         }
-    }
 
-    // Case uniform distribution of liquidity
-    // first case - there is liquidity
-    // second case there is no liquidity
-    if (!sumRelevantLiquidity) {
-        if (sumActiveLiquidity) {
-            return sumActiveLiquidity * unitPrice;
-        } else {
-            return 0;
+        if(!(minIndexFound && maxIndexFound)) {
+            minIndexFound = false;
+            maxIndexFound = false;
+            let minPriceIndex = 0;
+            let maxPriceIndex = 0;
+            tickDensityData = tickDensityData.reverse();
+            while(!(minIndexFound && maxIndexFound) && minPriceIndex < tickDensityData.length-1) {
+                if(!(tickDensityData[minPriceIndex].price1 <= minPrice && tickDensityData[minPriceIndex + 1].price1 >= minPrice)) {
+                    minPriceIndex++;
+                } else {
+                    minIndexFound = true;
+                }
+                if(tickDensityData[maxPriceIndex] && tickDensityData[maxPriceIndex + 1] &&
+                    !(tickDensityData[maxPriceIndex].price1 <= maxPrice && tickDensityData[maxPriceIndex + 1].price1 > maxPrice)) {
+                    maxPriceIndex++;
+                    if (minIndexFound) {
+                        sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
+                    }
+                } else {
+                    while (tickDensityData[maxPriceIndex] && tickDensityData[maxPriceIndex + 1] &&
+                    tickDensityData[maxPriceIndex].price0 <= minPrice &&  tickDensityData[maxPriceIndex + 1].price0 >= minPrice) {
+                        sumRelevantLiquidity += tickDensityData[maxPriceIndex].activeLiquidity;
+                        maxPriceIndex++;
+                    }
+                    maxIndexFound = true;
+                }
+            }
         }
+
+        // Case uniform distribution of liquidity
+        // first case - there is liquidity
+        // second case there is no liquidity
+        if (!sumRelevantLiquidity) {
+            if (sumActiveLiquidity) {
+                return sumActiveLiquidity * unitPrice;
+            } else {
+                return 0;
+            }
+        }
+
+        return sumRelevantLiquidity * unitPrice;
+    } catch(e) {
+        console.log(e)
+        let tickDensityData = await fetchTicksFormattedDataFromPool(pool.id);
+        console.log(tickDensityData)
+        return 0
     }
-
-    return sumRelevantLiquidity * unitPrice;
-
 }
 
 async function fetchTicksFormattedDataFromPool(poolAddress) {

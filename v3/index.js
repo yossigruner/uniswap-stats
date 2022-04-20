@@ -2,6 +2,7 @@ const pools = require('./pools.js');
 const consts = require('./consts.js');
 const liquidityCollector = require('./liquidityCollector.js');
 const json2xls = require('json2xls');
+const converter = require('json-2-csv');
 const fs = require('fs');
 const api = require('./apiv3Queries.js');
 const log = require('debug-level').log('test');
@@ -13,12 +14,6 @@ const v3helpers = require('./helpers.js');
 async function main() {
 
     const ethUsdtPool = await api.getPoolByPoolId(consts.ETH_USDT_POOL_ID);
-    // const pool = await api.getPoolByPoolId('0x5116f278d095ec2ad3a14090fedb3e499b8b5af6');
-    // const t = await liquidityCollector.getLiquidityInRangeInUSD(pool[0],2297,3359, ethUsdtPool[0]);
-    // const t2 = liquidityInRange.getPriceForTick(pool[0], Number(-1*Number(pool[0].tick)));
-
-
-
     const relevantPools = await pools.getRelevantPools();
     let indexProcessed = 0;
     let amountProcessed = 0;
@@ -68,12 +63,12 @@ async function getNumPools(poolJobs, num, ethUsdtPool) {
     return await Promise.all(promises);
 }
 
-const startDate = Date.now();
-
 main()
-    .then((res) => {
+    .then(async (res) => {
         const result = res.sort((a,b) => (a.estimatedRevenue > b.estimatedRevenue) ? 1 : ((b.estimatedRevenue < a.estimatedRevenue) ? -1 : 0));
-        const xls = json2xls(result);
-        fs.writeFileSync('./output/uniswap_pools_data_'+ Date() +'_.xlsx', xls, 'binary');
-
+        const csvData = await converter.json2csvAsync(result)
+        const dateString = new Date().toISOString().split('.')[0].replace(/[^\d]/gi,'')
+        const fileName = `./output/uniswap_pools_data_${dateString}.csv`
+        fs.writeFileSync(fileName, csvData);
+        console.log(`DONE - ${fileName}`)
     });

@@ -88,9 +88,9 @@ const getPoolByPoolId = async (poolId) => {
                 },
                 ticks {
                   id,
-                  
+
                 }
-            
+
               }
               }
 
@@ -173,14 +173,14 @@ const getPoolAllPools = async (volume, skip) => {
                       price0,
                       price1,
                       liquidityNet,
-                      liquidityGross                
+                      liquidityGross
                     },
                     mints{
                       amount,
                       amountUSD,
                       tickLower,
                       tickUpper
-                  
+
                     }
                   }
                 }
@@ -188,7 +188,7 @@ const getPoolAllPools = async (volume, skip) => {
         `
         });
 
-        if (!pool.data.data  | !pool.data.data.pools) {
+        if (!pool || !pool.data || !pool.data.data  || !pool.data.data.pools) {
             return null;
         }
 
@@ -204,12 +204,12 @@ const querySwapData = async (skip, pairAddress, timestamp_high, timestamp_low) =
       return await axios.post(consts.URI_ALT, {
             query: `
             {
-                    
-                       swaps(first: 1000, skip: ` + skip + `, 
-                       where: { 
-                           pool: "` + pairAddress + `", 
-                           timestamp_gte:` + timestamp_low + `, 
-                           timestamp_lte:` + timestamp_high + ` } 
+
+                       swaps(first: 1000, skip: ` + skip + `,
+                       where: {
+                           pool: "` + pairAddress + `",
+                           timestamp_gte:` + timestamp_low + `,
+                           timestamp_lte:` + timestamp_high + ` }
                        orderBy: timestamp, orderDirection: desc) {
                       transaction {
                         id
@@ -228,14 +228,14 @@ const querySwapData = async (skip, pairAddress, timestamp_high, timestamp_low) =
                       symbol,
                       name
                     }
-                      
+
                       amount0,
                       amount1
                       amountUSD
                     }
 
                 }
-            
+
         `
         })
     } catch (e) {

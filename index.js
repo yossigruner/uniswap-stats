@@ -215,7 +215,7 @@ const getPairs = async () => {
     while (moreResults) {
         // get pairs
         console.log("calling with skip = " + skip);
-        const res = await axios.post('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', {
+        const res = await axios.post(consts.URI_ALT, {
             query: `
             {
                     pairDayDatas(first: 1000,skip: ` + skip + `,  orderBy: date, orderDirection: asc,skip: $skip,
@@ -238,7 +238,7 @@ const getPairs = async () => {
                         date
                     }
                 }
-            
+
         `
         });
 
@@ -266,15 +266,15 @@ const getPairs = async () => {
 };
 
 const _querySwapData = async (skip, pairAddress, timestamp_high, timestamp_low) => {
-    return await axios.post('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', {
+    return await axios.post(consts.URI_ALT, {
         query: `
             {
-                    
-                       swaps(first: 1000, skip: ` + skip + `, 
-                       where: { 
-                           pair: "` + pairAddress + `", 
-                           timestamp_gte:` + timestamp_low + `, 
-                           timestamp_lte:` + timestamp_high + ` } 
+
+                       swaps(first: 1000, skip: ` + skip + `,
+                       where: {
+                           pair: "` + pairAddress + `",
+                           timestamp_gte:` + timestamp_low + `,
+                           timestamp_lte:` + timestamp_high + ` }
                        orderBy: timestamp, orderDirection: desc) {
                       transaction {
                         id
@@ -300,7 +300,7 @@ const _querySwapData = async (skip, pairAddress, timestamp_high, timestamp_low) 
                     }
 
                 }
-            
+
         `
     })
 };

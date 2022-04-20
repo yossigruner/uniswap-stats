@@ -80,7 +80,7 @@ module.exports = {
 
 const _getLiquiditiesForPair = async (poolAddress, name) => {
    console.log('[helpers._getLiquiditiesForPair]-Calling for pair - ' + name );
-    const pool = await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph', {
+    const pool = await axios.post(consts.URI_ALT, {
         query: `
                 {
   pools
@@ -135,7 +135,7 @@ const _getLiquiditiesForPair = async (poolAddress, name) => {
         return [];
     }
 
-    const res = await axios.post('https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-subgraph', {
+    const res = await axios.post(consts.URI_ALT, {
         query: `
                 {
   ticks(where: {poolAddress: "`+ relevantPools[0].id +`"}){
@@ -191,7 +191,7 @@ const _getLiquiditySumForPoolAndRange = async (poolAddress, minPrice, maxPrice, 
 
 
 const _getPair = async (pairId) => {
-    const res = await axios.post('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', {
+    const res = await axios.post(consts.URI_ALT, {
         query: `
                 {
                  pair(id: "`+ pairId +`"){
@@ -232,7 +232,7 @@ const _getPair = async (pairId) => {
 };
 
 const _getTokenData = async (tokenId) => {
-    const res = await axios.post('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', {
+    const res = await axios.post(consts.URI_ALT, {
         query: `
             {
             tokenDayDatas(orderBy: date, orderDirection: asc,
