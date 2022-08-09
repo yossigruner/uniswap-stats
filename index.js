@@ -13,6 +13,7 @@ const LIQUIDITY_V3 = true;
 const MULTIPLIER = 15;
 
 const TIME_INTERVALS_IN_DAYS = [1, 4/24, 2/24, 1/24 ];
+//const TIME_INTERVALS_IN_DAYS = [1, 4/24 ];
 const DATES = TIME_INTERVALS_IN_DAYS.map(x=> Math.round(Date.now() / 1000 - (86400 * x)));
 const NUMBEROFDAYS = 1;
 const TIME_IN_RANGE_TRESHOLD = 0.7;

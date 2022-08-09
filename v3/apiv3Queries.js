@@ -110,7 +110,7 @@ const getPoolAllPools = async (volume, skip) => {
       const pool = await axios.post(consts.URI_ALT, {
             query: `
                 {
-                  pools(first: 1000, skip: ` + skip +`){
+                  pools(first: 1000, orderBy: volumeUSD, orderDirection: desc, skip: ` + skip +`){
                     id,
                     volumeUSD,
                     sqrtPrice,

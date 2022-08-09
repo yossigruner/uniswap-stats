@@ -5,16 +5,16 @@ const pools = require('./pools.js');
 const log = require('debug-level').log('test');
 
 
-const POOL_ID = '0x07f3d316630719f4fc69c152f397c150f0831071';
-const MIN_PRICE = 0;
-const MAX_PRICE = 4200;
+const POOL_ID = '0x8c54aa2a32a779e6f6fbea568ad85a19e0109c26';
+const MIN_PRICE = 0.9;
+const MAX_PRICE = 1;
 
 async function main() {
     const ethUsdtPool = await api.getPoolByPoolId(consts.ETH_USDT_POOL_ID);
     const pool = await api.getPoolByPoolId(POOL_ID);
     const liquidity = await liquidityCollector.getLiquidityInRangeInUSD(pool[0],
-        MIN_PRICE, 
-        MAX_PRICE, 
+        MIN_PRICE,
+        MAX_PRICE,
         ethUsdtPool[0]);
     let data = {};
     try {
